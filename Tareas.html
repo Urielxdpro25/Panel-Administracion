@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>To do List</title>
+
+    <style>
+        .contenedor {
+            width: auto;
+            height: auto;
+            background-color: darkkhaki;
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid black;
+        }
+
+        .agregar {
+            background-color: aquamarine;
+            border: 2px solid black;
+            border-radius: 5px;
+            font-size: 15px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .listado {
+            display: grid;
+            grid-template-columns: repeat(3, 2fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .card {
+            width: 130px;
+            height: 100px;
+            background-color: antiquewhite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 5px;
+            border: 2px solid black;
+            border-radius: 5px;
+        }
+
+        .borrar {
+            background-color: lightcoral;
+            border: 2px solid black;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        .terminada {
+            background-color: rgb(62, 234, 10);
+            border: 2px solid black;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        .input {
+            width: 120px;
+            height: 20px;
+            border-radius: 5px;
+            border: 1px solid black;
+        }
+    </style>
+
+</head>
+
+<body class="body">
+
+    <h1>To do List</h1>
+
+    <div class="contenedor">
+
+        <button class="agregar" id="agregar">
+            Agregar Tarea
+        </button>
+
+
+
+        <div class="listado" id="listado"></div>
+
+    </div>
+
+    <script>
+        const boton = document.getElementById("agregar");
+        const lista = document.getElementById("listado");
+
+        boton.addEventListener("click", añadirTarea);
+
+        function añadirTarea() {
+
+            const card = document.createElement("div");
+            const borrar = document.createElement("button");
+            const terminada = document.createElement("button");
+            const input = document.createElement("input");
+
+            input.type = "text";
+            input.placeholder = "Escribe tu tarea";
+            input.classList.add("input");
+
+            card.classList.add("card");
+
+            borrar.classList.add("borrar");
+            borrar.textContent = "Borrar";
+
+            terminada.classList.add("terminada");
+            terminada.textContent = "Terminada";
+
+            card.appendChild(input);
+            card.appendChild(borrar);
+            card.appendChild(terminada);
+
+            lista.appendChild(card);
+        }
+
+        lista.addEventListener("click", borrarTarea);
+
+        function borrarTarea(event) {
+
+            if (event.target.classList.contains("borrar")) {
+
+                const card = event.target.parentElement;
+
+                lista.removeChild(card);
+            }
+        }
+    </script>
+
+</body>
+
+</html>
