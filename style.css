@@ -18,51 +18,63 @@
 
 .navbar {
     background-color: #0f5739;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, .3);
-    width: 100%;
-    margin: 0 auto;
-    gap: 10px;
-    height: 100px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    padding: 20px 10px;
+    border-radius: 0 12px 12px 0;
+    box-shadow: 4px 0 6px rgba(0, 0, 0, .3);
 
+    width: 220px;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+
+    position: fixed;
+    left: 0;
+    top: 0;
+
+    z-index: 1000;
 }
 
+/* Contenedor de los enlaces */
+.direccion {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Enlaces */
 .direccion a {
     color: white;
     text-decoration: none;
-    font-size: 1.2rem;
-
-    border-bottom: 2px solid transparent;
-
-    transition: color .3s ease,
-        background-color .3s ease;
+    font-size: 1.1rem;
 
     background: rgba(255, 255, 255, 0.1);
 
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 
-    padding: 8px 16px;
+    padding: 12px 16px;
     border-radius: 8px;
 
-    display: inline-block;
+    display: block;
+
+    border-left: 3px solid transparent;
+
+    transition: 
+        color .3s ease,
+        background-color .3s ease,
+        border .3s ease;
 }
 
+/* Hover */
 .direccion a:hover {
     color: #0f5739;
     background-color: white;
-    border-bottom: 2px solid #0f5739;
-    width: auto;
+    border-left: 3px solid #45c9a4;
+    
 }
-
 .footer {
     background-color: #000000;
 
