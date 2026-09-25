@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -9,34 +9,26 @@
 </head>
 
 <body class="body">
-
     <h1 class="h1">Carga de productos</h1>
 
     <nav class="navbar">
-
-        <div class="direccion">
-            <a href="Home.html">Inicio</a>
-        </div>
-
-        <div class="direccion">
-            <a href="Graficos.html">Graficos</a>
-        </div>
-
-        <div class="direccion">
-            <a href="Tareas.html">Tareas</a>
-        </div>
-
-        <div class="direccion">
-            <a href="Productos.html">Productos</a>
-        </div>
+        <div class="direccion"><a href="Home.html">Inicio</a></div>
+        <div class="direccion"><a href="Graficos.html">Graficos</a></div>
+        <div class="direccion"><a href="Tareas.html">Tareas</a></div>
+        <div class="direccion" class="SideActive"><a href="Productos.html">Productos</a></div>
     </nav>
 
-    <form action="/subir-imagen">
-        <label for="imagen">Elige una imagen:</label>
-        <input type="file" id="imagen" name="imagen" accept="image/*">
-    </form>
+    <nav aria-label="Paginación de la página">
 
-
+        <ul class="pagination">
+            <li><a href="#">&laquo;</a></li>
+            <li><a href="Home.html" >1</a></li>
+            <li><a href="Graficos.html">2</a></li>
+            <li><a href="Tareas.html">3</a></li>
+            <li><a href="Productos.html" class="active">4</a></li>
+            <li><a href="#">&raquo;</a></li>
+        </ul>
+    </nav>
 
 </body>
 
