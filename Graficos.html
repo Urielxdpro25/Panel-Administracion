@@ -30,6 +30,30 @@
     </nav>
 
 
+
+
+    <div class="contenedor">
+
+    </div>
+
+    <div class="dashboard">
+
+    <div class="grafico">
+        <h2>Productos - Puntos</h2>
+        <canvas id="graficoPuntos"></canvas>
+    </div>
+
+    <div class="grafico">
+        <h2>Productos - Barras</h2>
+        <canvas id="graficoBarras"></canvas>
+    </div>
+
+    <div class="grafico">
+        <h2>Productos - Distribución</h2>
+        <canvas id="graficoTorta"></canvas>
+    </div>
+
+</div>
     <nav aria-label="Paginación de la página">
         <ul class="pagination">
             <li><a href="Home.html">1</a></li>
@@ -39,6 +63,63 @@
         </ul>
     </nav>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+
+const productos = [
+    { nombre: "Remera", cantidad: 25 },
+    { nombre: "Pantalón", cantidad: 15 },
+    { nombre: "Zapatillas", cantidad: 30 },
+    { nombre: "Campera", cantidad: 10 },
+    { nombre: "Gorra", cantidad: 20 }
+];
+
+const nombres = productos.map(producto => producto.nombre);
+
+const cantidades = productos.map(producto => producto.cantidad);
+
+new Chart(document.getElementById("graficoBarras"), {
+    type: "bar",
+
+    data: {
+        labels: nombres,
+
+        datasets: [{
+            label: "Cantidad",
+            data: cantidades
+        }]
+    }
+});
+
+new Chart(document.getElementById("graficoTorta"), {
+    type: "pie",
+
+    data: {
+        labels: nombres,
+
+        datasets: [{
+            data: cantidades
+        }]
+    }
+});     
+
+new Chart(document.getElementById("graficoPuntos"), {
+    type: "scatter",
+
+    data: {
+        datasets: [{
+            label: "Cantidad de productos",
+
+            data: productos.map((producto, indice) => ({
+                x: indice + 1,
+                y: producto.cantidad
+            }))
+        }]
+    }
+});
+
+    </script>
 
 </body>
 </html>

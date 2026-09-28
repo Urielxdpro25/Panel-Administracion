@@ -8,13 +8,30 @@
 }
 
 /* Inicio  Inicio*/
-.h1{
+.h1 {
     color: #190808;
 }
 
-
-
 /* Fin Inicio */
+
+/* Productos */
+.form {
+
+    background-color: #388564;
+    padding: 20px 10px;
+    border-radius: 10px;
+    box-shadow: 4px 0 6px rgba(0, 0, 0, .3);
+    min-width: 300px;
+    min-height: 200px;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+/*  fin Productos */
+
 
 .navbar {
     background-color: #0f5739;
@@ -36,10 +53,11 @@
 
     z-index: 1000;
 }
+
 .navbar .SideActive {
-  background-color: #eaefe9;
-  color: #0f5739;
-  border-color: black;
+    background-color: #eaefe9;
+    color: #0f5739;
+    border-color: black;
 }
 
 /* Contenedor de los enlaces */
@@ -67,7 +85,7 @@
 
     border-left: 3px solid transparent;
 
-    transition: 
+    transition:
         color .3s ease,
         background-color .3s ease,
         border .3s ease;
@@ -78,8 +96,9 @@
     color: #0f5739;
     background-color: white;
     border-left: 3px solid #45c9a4;
-    
+
 }
+
 .footer {
     background-color: #000000;
 
@@ -99,32 +118,32 @@
 }
 
 .pagination {
-  display: flex;
-  list-style: none;
-  padding: 0;
-  justify-content: center;
-  gap: 5px;
+    display: flex;
+    list-style: none;
+    padding: 0;
+    justify-content: center;
+    gap: 5px;
 }
 
 .pagination li a {
-  display: block;
-  padding: 8px 16px;
-  text-decoration: none;
-  color: #333;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  transition: background-color 0.3s;
+    display: block;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: background-color 0.3s;
 }
 
 .pagination li a:hover {
-  background-color: #eee;
+    background-color: #eee;
 }
 
 .pagination li a.active {
-  background-color: #007bff;
-  color: #fff;
-  border-color: #007bff;
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
 }
 
 
