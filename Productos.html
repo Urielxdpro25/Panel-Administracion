@@ -18,16 +18,6 @@
         <div class="direccion"><a href="Productos.html" class="SideActive" >Productos</a></div>
     </nav>
 
-    <nav aria-label="Paginación de la página">
-
-        <ul class="pagination">
-            <li><a href="Home.html" >1</a></li>
-            <li><a href="Graficos.html">2</a></li>
-            <li><a href="Tareas.html">3</a></li>
-            <li><a href="Productos.html" class="active">4</a></li>
-        </ul>
-    </nav>
-
     <form class="form">
         <legend>Carga de productos</legend>
         <input type="file"></input>
@@ -38,6 +28,30 @@
     </form>
 
 
+    <nav aria-label="Paginación de la página">
+        <ul class="pagination">
+            <li><a href="Home.html" >1</a></li>
+            <li><a href="Graficos.html">2</a></li>
+            <li><a href="Tareas.html">3</a></li>
+            <li><a href="Productos.html" class="active">4</a></li>
+        </ul>
+    </nav>
 </body>
+<script>
+    
+class Producto {
+    constructor(id, nombre, marca, precio, img, categoria) {
+        this.id = id;
+        this.nombre = nombre;
+        this.marca = marca;
+        this.precio = precio;
+        this.img = img;
+        this.categoria = categoria;
+    }
+};
+
+ 
+
+</script>
 
 </html>
