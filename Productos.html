@@ -18,7 +18,7 @@
         <div class="direccion"><a href="Productos.html" class="SideActive" >Productos</a></div>
     </nav>
 
-    <form class="form">
+    <form class="formularios">
         <legend>Carga de productos</legend>
         <input type="file"></input>
         <Input type="text" placeholder="Nombre Producto">
@@ -48,7 +48,202 @@ class Producto {
         this.img = img;
         this.categoria = categoria;
     }
+
+
 };
+
+function createProduct(){
+    let nombre = document.querySelector('#nombre-producto').value;
+    let miProducto = new Producto(1,nombre,)
+}
+
+// Contenedor principal
+
+let contenedor = document.getElementById("container");
+
+
+// Creamos la fila
+
+let fila = document.createElement("div");
+
+fila.classList.add("row");
+
+
+// Recorremos los productos
+
+gondola.forEach(x => {
+
+    // Columna
+
+    let col = document.createElement("div");
+
+    col.className = "col-4 pt-3";
+
+
+    // Card
+
+    let card = document.createElement("div");
+
+    card.className = "card";
+
+
+    // Imagen
+
+    let img = document.createElement("img");
+
+    img.src = x.img;
+    img.className = "card-img-top";
+    img.alt = x.nombre;
+
+
+    // Agregamos imagen a la card
+
+    card.appendChild(img);
+
+
+    // Cuerpo de la card
+
+    let cardBody = document.createElement("div");
+
+    cardBody.className = "card-body";
+
+
+    // Título
+
+    let cardTitle = document.createElement("h5");
+
+    cardTitle.className = "card-title";
+
+    cardTitle.textContent = x.nombre + " - " + x.marca;
+
+
+    // Agregamos título
+
+    cardBody.appendChild(cardTitle);
+
+
+    // Texto
+
+    let cardText = document.createElement("p");
+
+    cardText.className = "card-text";
+
+    cardText.textContent =
+        `Categoría: ${x.categoria} - Precio: $${x.precio}`;
+
+
+    // Agregamos texto
+
+    cardBody.appendChild(cardText);
+
+
+    // Botón
+
+    let boton = document.createElement("button");
+
+    boton.className = "btn btn-success";
+
+    boton.textContent = "add";
+
+
+    boton.addEventListener("click", () => {
+
+        add(x);
+
+        render();
+
+    });
+
+
+    // Agregamos botón
+
+    cardBody.appendChild(boton);
+
+
+    // Agregamos cuerpo a card
+
+    card.appendChild(cardBody);
+
+
+    // Agregamos card a columna
+
+    col.appendChild(card);
+
+
+    // Agregamos columna a fila
+
+    fila.appendChild(col);
+
+});
+
+
+// Agregamos la fila al contenedor
+
+contenedor.appendChild(fila);
+
+
+// Función para agregar productos al carrito
+
+function add(y) {
+
+    carrito.agregar(y);
+
+    console.log(carrito.productos);
+
+}
+
+function eliminar(p){
+    carrito.borrar(p);
+    console.log(carrito.productos)
+    render();
+}
+
+// Función para mostrar los productos del carrito
+
+function render() {
+
+    let ul = document.getElementById("listado_productos");
+
+    ul.innerHTML = "";
+
+//recoremos los productos y con el ul mostramos cada item
+    carrito.productos.forEach(p => {
+
+        let li = document.createElement("li");
+        li.className = ""
+
+        li.textContent =
+            `Nombre: ${p.nombre} - Marca: ${p.marca} - $${p.precio}`;
+
+
+        // Botón borrar
+
+        let button_borrar = document.createElement("button");
+
+        button_borrar.className = "btn btn-danger m-3";
+
+        button_borrar.textContent = "borrar";
+
+
+        button_borrar.addEventListener("click", () => {
+
+            eliminar(p);
+            console.log(carrito.productos);
+
+            render();
+
+        });
+
+
+        li.appendChild(button_borrar);
+
+        ul.appendChild(li);
+
+    });
+
+
+} //del render
+
 
  
 
