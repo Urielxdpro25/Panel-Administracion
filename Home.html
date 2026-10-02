@@ -71,23 +71,9 @@
     </nav>
 
     <div class="contenedores">
-
-        <div class="contenedor">
+        <div class="contenedor" id="tareasAltas">
             <h2>Tareas</h2>
         </div>
-
-        <div class="contenedor">
-            <h2>Tareas</h2>
-        </div>
-
-        <div class="contenedor">
-            <h2>Tareas</h2>
-        </div>
-
-        <div class="contenedor">
-            <h2>Tareas</h2>
-        </div>
-
     </div>
 
     <nav aria-label="Paginación de la página">
@@ -101,10 +87,25 @@
 
     </nav>
 
+      <footer class="footer">
+        <p class="p">© 2026 Panel de Admistracion. Todos los derechos reservados. La Doble U.</p>
+    </footer>
+
+
+
     <script>
         let valorRecuperado = localStorage.getItem("nombreUsuario");
-
         document.getElementById("nombre").textContent = valorRecuperado;
+
+       let tareaAlta = localStorage.getItem("prioridad");
+        document.getElementById("PrioridadAlta").textContent = tareaAlta;
+
+        const tareasAltas = document.getElementById("tareasAltas");
+        document.getElementById("tareasAltas").addEventListener("click", function() {
+            window.location.href = "Tareas.html";
+        });
+        
+
     </script>
 
 </body>

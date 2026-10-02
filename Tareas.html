@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="style.css">
+
     <title>To do List</title>
 
     <style>
@@ -28,14 +30,14 @@
 
         .listado {
             display: grid;
-            grid-template-columns: repeat(3, 2fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
             margin-top: 10px;
         }
 
         .card {
             width: 130px;
-            height: 100px;
+            height: auto;
             background-color: antiquewhite;
             display: flex;
             justify-content: center;
@@ -44,6 +46,7 @@
             gap: 5px;
             border: 2px solid black;
             border-radius: 5px;
+            padding: 5px;
         }
 
         .borrar {
@@ -53,11 +56,12 @@
             font-size: 12px;
         }
 
-        .terminada {
+        .terminadas {
             background-color: rgb(62, 234, 10);
             border: 2px solid black;
             border-radius: 5px;
             font-size: 12px;
+            
         }
 
         .input {
@@ -65,6 +69,27 @@
             height: 20px;
             border-radius: 5px;
             border: 1px solid black;
+        }
+
+        .selector {
+            width: 120px;
+            height: 20px;
+            border-radius: 5px;
+            border: 1px solid black;
+        }
+
+        .BTNPrioAlta {
+            background-color: rgb(255, 255, 0);
+            border: 2px solid black;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        .terminadaBTN {
+            background-color: rgb(0, 255, 0);
+            border: 2px solid black;
+            border-radius: 5px;
+            font-size: 12px;
         }
     </style>
 
@@ -74,11 +99,10 @@
 
     <h1>To do List</h1>
 
-    
     <nav class="navbar">
 
         <div class="direccion">
-            <a href="Home.html" >Inicio</a>
+            <a href="Home.html">Inicio</a>
         </div>
 
         <div class="direccion">
@@ -92,8 +116,8 @@
         <div class="direccion">
             <a href="Productos.html">Productos</a>
         </div>
-    </nav>
 
+    </nav>
 
 
     <div class="contenedor">
@@ -102,58 +126,205 @@
             Agregar Tarea
         </button>
 
-
-
         <div class="listado" id="listado"></div>
+
+        <div class="listado" id="PrioridadAlta"></div>
 
     </div>
 
 
-    
+    <div class="contenedor">
+
+        <div class="terminadas" id="terminadas">
+        </div>
+
+    </div>
+
+
     <nav aria-label="Paginación de la página">
 
         <ul class="pagination">
-            <li><a href="Home.html" >1</a></li>
-            <li><a href="Graficos.html">2</a></li>
-            <li><a href="Tareas.html"class="active">3</a></li>
-            <li><a href="Productos.html">4</a></li>
+
+            <li>
+                <a href="Home.html">1</a>
+            </li>
+
+            <li>
+                <a href="Graficos.html">2</a>
+            </li>
+
+            <li>
+                <a href="Tareas.html" class="active">3</a>
+            </li>
+
+            <li>
+                <a href="Productos.html">4</a>
+            </li>
+
         </ul>
+
     </nav>
 
 
+    <footer class="footer">
+
+        <p class="p">
+            © 2026 Panel de Administración. Todos los derechos reservados. La Doble U.
+        </p>
+
+    </footer>
+
+
     <script>
+
         const boton = document.getElementById("agregar");
         const lista = document.getElementById("listado");
+        const terminadas = document.getElementById("terminadas");
+        const prioridadAlta = document.getElementById("PrioridadAlta");
+
 
         boton.addEventListener("click", añadirTarea);
+
 
         function añadirTarea() {
 
             const card = document.createElement("div");
+
             const borrar = document.createElement("button");
+
             const terminada = document.createElement("button");
+
             const input = document.createElement("input");
 
+            const selector = document.createElement("select");
+
+            const BTNPrioAlta = document.createElement("button");
+
+
+            // INPUT
+
             input.type = "text";
+
             input.placeholder = "Escribe tu tarea";
+
             input.classList.add("input");
+
+
+            // CARD
 
             card.classList.add("card");
 
+
+            // BOTÓN BORRAR
+
             borrar.classList.add("borrar");
+
             borrar.textContent = "Borrar";
 
-            terminada.classList.add("terminada");
+
+            // BOTÓN TERMINADA
+
+            terminada.classList.add("terminadaBTN");
+
             terminada.textContent = "Terminada";
 
+
+            // BOTÓN PRIORIDAD
+
+            BTNPrioAlta.classList.add("BTNPrioAlta");
+
+            BTNPrioAlta.textContent = "Mover a Alta Prioridad";
+
+
+            // SELECTOR
+
+            selector.classList.add("selector");
+
+            selector.innerHTML = `
+                <option value="opcion1">Alta</option>
+                <option value="opcion2">Media</option>
+                <option value="opcion3">Baja</option>
+            `;
+
+
+            // AGREGAR ELEMENTOS A LA CARD
+
             card.appendChild(input);
+
             card.appendChild(borrar);
+
             card.appendChild(terminada);
 
+            card.appendChild(selector);
+
+            card.appendChild(BTNPrioAlta);
+
+
+            // AGREGAR CARD A LA LISTA
+
             lista.appendChild(card);
+
+
+            // CAMBIAR PRIORIDAD
+
+            selector.addEventListener("change", function () {
+
+                if (selector.value === "opcion1") {
+
+                    localStorage.setItem("prioridad", "Alta");
+
+                }
+
+            });
+
+
+            // BOTÓN MOVER A ALTA PRIORIDAD
+
+            BTNPrioAlta.addEventListener("click", function () {
+
+                prioridadAlta.appendChild(card);
+
+                localStorage.setItem("prioridad", "Alta");
+
+            });
+
         }
 
+        // FUNCION PARA ENVIAR A HOME.HTML
+       
+
+        // MARCAR COMO TERMINADA
+
+        lista.addEventListener("click", marcarTerminada);
+
+        prioridadAlta.addEventListener("click", marcarTerminada);
+
+
+        function marcarTerminada(event) {
+
+            if (event.target.classList.contains("terminadaBTN")) {
+
+                const card = event.target.parentElement;
+
+                const input = card.querySelector("input");
+
+                input.style.textDecoration = "line-through";
+
+                terminadas.appendChild(card);
+
+            }
+
+        }
+
+
+        // BORRAR TAREA
+
         lista.addEventListener("click", borrarTarea);
+
+        prioridadAlta.addEventListener("click", borrarTarea);
+
+        terminadas.addEventListener("click", borrarTarea);
+
 
         function borrarTarea(event) {
 
@@ -161,9 +332,12 @@
 
                 const card = event.target.parentElement;
 
-                lista.removeChild(card);
+                card.remove();
+
             }
+
         }
+
     </script>
 
 </body>
