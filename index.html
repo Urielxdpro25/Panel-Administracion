@@ -10,58 +10,46 @@
 
 <body class="body">
 
-    <!-- From Uiverse.io by andrew-demchenk0 -->
 
-    <form class="form" id="formLogin">
 
-        <div class="title">
-            Bienvenido,<br>
-            <span>Inicia sesión para entrar</span>
+    <!-- From Uiverse.io by StarMarketPros -->
+    <div class="wrapper">
+        <div class="card-switch">
+            <label class="switch">
+                <input class="toggle" type="checkbox">
+                <span class="slider"></span>
+                <span class="card-side"></span>
+                <div class="flip-card__inner">
+                    <div class="flip-card__front">
+
+                        <div class="title">Log in</div>
+                        <form action="" class="flip-card__form">
+
+                            <input type="email" placeholder="Email" name="email" class="flip-card__input">
+                            <input type="password" placeholder="Password" name="password" class="flip-card__input">
+                            <button class="flip-card__btn" id="btn">
+                                Ingresar
+                            </button>
+                        </form>
+
+                    </div>
+                    <div class="flip-card__back">
+                        <div class="title">Sign up</div>
+                        <form action="" class="flip-card__form">
+                            <input type="text" placeholder="Nombre Negocio" name="Nombre Negocio" class="flip-card__input">
+                            <input type="name" placeholder="Name" class="flip-card__input">
+                            <input type="email" placeholder="Email" name="email" class="flip-card__input">
+                            <input type="password" placeholder="Password" name="password" class="flip-card__input">
+                            <button class="flip-card__btn">Confirmar</button>
+                        </form>
+                    </div>
+                </div>
+            </label>
         </div>
+    </div>
 
-        <input type="text" placeholder="Nombre" name="Nombre" class="input" id="name">
+    <script type="module" src="main.js"></script>
 
-        <input type="password" placeholder="Contraseña" name="password" class="input" id="password">
-
-        <div class="login-with">
-
-            <button type="submit" class="button-confirm" id="btn" onclick="enviar">Ingresar → </button>
-
-        </div>
-
-    </form>
-
-      <p class="p">© 2026 Panel de Admistracion. Todos los derechos reservados. La Doble U.</p>
-    </footer>
-
-   <script>
-
-    let Usuario = "Uriel";
-    let contraseña = "25507";
-
-    const formulario = document.getElementById("formLogin");
-    const name = document.getElementById("name");
-    const password = document.getElementById("password");
-
-    formulario.addEventListener("submit", (evento) => {
-
-        evento.preventDefault();
-
-        if (name.value === Usuario && password.value === contraseña) {
-
-            localStorage.setItem("nombreUsuario", name.value);
-
-            window.location.href = "Home.html";
-
-        } else {
-
-            alert("Usuario o contraseña incorrectos");
-
-        }
-
-    });
-
-</script>
 </body>
 
 </html>

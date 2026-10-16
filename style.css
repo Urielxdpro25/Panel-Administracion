@@ -3,61 +3,43 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 70px;
-    gap: 40px;
+    padding: 10px;
+    gap: 20px;
 }
 
 /* Inicio  Inicio*/
-.h1 {
+.h1{
     color: #190808;
 }
 
+
+
 /* Fin Inicio */
-
-/*  */
-
-/* Productos */
-.formularios {
-
-    background-color: #388564;
-    padding: 20px 10px;
-    border-radius: 10px;
-    box-shadow: 4px 0 6px rgba(0, 0, 0, .3);
-    min-width: 300px;
-    min-height: 200px;
-    gap: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-}
-
-/*  fin Productos */
-
 
 .navbar {
     background-color: #0f5739;
     padding: 20px 10px;
     border-radius: 0 12px 12px 0;
     box-shadow: 4px 0 6px rgba(0, 0, 0, .3);
-    width: 300px;
-    height: 100%;
+
+    width: 220px;
+    height: 100vh;
+
     display: flex;
     flex-direction: column;
     align-items: stretch;
     gap: 15px;
+
     position: fixed;
     left: 0;
     top: 0;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-}
 
+    z-index: 1000;
+}
 .navbar .SideActive {
-    background-color: #eaefe9;
-    color: #0f5739;
-    border-color: black;
+  background-color: #eaefe9;
+  color: #0f5739;
+  border-color: black;
 }
 
 /* Contenedor de los enlaces */
@@ -85,7 +67,7 @@
 
     border-left: 3px solid transparent;
 
-    transition:
+    transition: 
         color .3s ease,
         background-color .3s ease,
         border .3s ease;
@@ -96,46 +78,53 @@
     color: #0f5739;
     background-color: white;
     border-left: 3px solid #45c9a4;
-
+    
 }
-
 .footer {
-    background-color: #0f5739;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    /* position: fixed; */
-    bottom: 0;
+    background-color: #000000;
+
     width: 100%;
+    min-height: 100px;
+
+    padding: 10px;
+    text-align: center;
+
+    margin-top: 20px;
+
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .pagination {
-    display: flex;
-    list-style: none;
-    padding: 0;
-    justify-content: center;
-    gap: 5px;
+  display: flex;
+  list-style: none;
+  padding: 0;
+  justify-content: center;
+  gap: 5px;
 }
 
 .pagination li a {
-    display: block;
-    padding: 8px 16px;
-    text-decoration: none;
-    color: #333;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    transition: background-color 0.3s;
+  display: block;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: #333;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: background-color 0.3s;
 }
 
 .pagination li a:hover {
-    background-color: #eee;
+  background-color: #eee;
 }
 
 .pagination li a.active {
-    background-color: #007bff;
-    color: #fff;
-    border-color: #007bff;
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
 }
 
 
@@ -182,41 +171,348 @@
     font-size: 20px;
 }
 
+/* Product management */
+.productos-page {
+    padding: 30px 30px 30px 270px;
+    align-items: stretch;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
 
-/* index */
-/* From Uiverse.io by andrew-demchenk0 */
-.form {
-    --input-focus: #18bc72;
-    --font-color: #030303;
-    --font-color-sub: #020202;
-    --bg-color: #fff;
-    --main-color: #323232;
-    padding: 20px;
-    background: rgb(9, 196, 49);
+.productos-main {
+    width: min(1100px, 100%);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(280px, 360px) 1fr;
+    gap: 28px;
+}
+
+.producto-panel,
+.productos-listado {
+    background: #fff;
+    border: 1px solid #d4e6d0;
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 5px 16px rgba(15, 87, 57, .12);
+}
+
+.producto-panel h2,
+.productos-listado h2 {
+    color: #0f5739;
+    margin-top: 0;
+}
+
+.campo {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.campo label {
+    color: #24352b;
+    font-weight: 700;
+}
+
+.campo input,
+.campo textarea {
+    border: 1px solid #b7cdbb;
+    border-radius: 7px;
+    box-sizing: border-box;
+    font: inherit;
+    padding: 10px;
+    width: 100%;
+}
+
+.campo input:focus,
+.campo textarea:focus {
+    border-color: #0f5739;
+    outline: 2px solid rgba(15, 87, 57, .2);
+}
+
+.campo small {
+    color: #58705d;
+}
+
+.imagen-preview {
+    border-radius: 8px;
+    height: 150px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.form-actions,
+.producto-card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.producto-btn {
+    border: 0;
+    border-radius: 7px;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+    padding: 10px 14px;
+}
+
+.producto-btn-primary {
+    background: #0f5739;
+    color: #fff;
+}
+
+.producto-btn-primary:hover {
+    background: #0a4029;
+}
+
+.producto-btn-secondary {
+    background: #dcebe0;
+    color: #0f5739;
+}
+
+.producto-btn-danger {
+    background: #f8d9d9;
+    color: #9b2323;
+}
+
+.form-message {
+    color: #0f5739;
+    min-height: 1.2em;
+}
+
+.form-message-error {
+    color: #9b2323;
+}
+
+.productos-grid {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.producto-card {
+    border: 1px solid #d4e6d0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.producto-card-image,
+.producto-card-no-image {
+    background: #edf5ea;
+    display: block;
+    height: 160px;
+    object-fit: cover;
+    text-align: center;
+    width: 100%;
+}
+
+.producto-card-no-image {
+    color: #58705d;
+    line-height: 160px;
+}
+
+.producto-card-content {
+    padding: 14px;
+}
+
+.producto-card-content h3 {
+    color: #0f5739;
+    margin: 0 0 8px;
+}
+
+.producto-card-content p {
+    color: #47564a;
+    min-height: 42px;
+}
+
+.producto-card-content strong {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 14px;
+}
+
+.sin-productos {
+    color: #58705d;
+}
+
+@media (max-width: 850px) {
+    .productos-page {
+        padding: 20px;
+    }
+
+    .navbar {
+        position: static;
+        width: 100%;
+        height: auto;
+        box-sizing: border-box;
+    }
+
+    .productos-main {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* From Uiverse.io by StarMarketPros */
+.wrapper {
+    --input-focus: #2df08b;
+    --font-color: #323232;
+    --font-color-sub: #666;
+    --bg-color: #fff;
+    --bg-color-alt: #666;
+    --main-color: #323232;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* switch card */
+.switch {
+    /* transform: translateY(200px); */
+    position: relative;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    gap: 30px;
+    width: 50px;
+    height: 20px;
+}
+
+.card-side::before {
+    position: absolute;
+    content: 'Log in';
+    left: -70px;
+    top: 0;
+    width: 100px;
+    text-decoration: underline;
+    color: var(--font-color);
+    font-weight: 600;
+}
+
+.card-side::after {
+    position: absolute;
+    content: 'Sign up';
+    left: 70px;
+    top: 0;
+    width: 100px;
+    text-decoration: none;
+    color: var(--font-color);
+    font-weight: 600;
+}
+
+.toggle {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 2px solid var(--main-color);
+    box-shadow: 4px 4px var(--main-color);
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--bg-colorcolor);
+    transition: 0.3s;
+}
+
+.slider:before {
+    box-sizing: border-box;
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    border: 2px solid var(--main-color);
+    border-radius: 5px;
+    left: -2px;
+    bottom: 2px;
+    background-color: var(--bg-color);
+    box-shadow: 0 3px 0 var(--main-color);
+    transition: 0.3s;
+}
+
+.toggle:checked+.slider {
+    background-color: var(--input-focus);
+}
+
+.toggle:checked+.slider:before {
+    transform: translateX(30px);
+}
+
+.toggle:checked~.card-side:before {
+    text-decoration: none;
+}
+
+.toggle:checked~.card-side:after {
+    text-decoration: underline;
+}
+
+/* card */
+
+.flip-card__inner {
+    width: 300px;
+    height: 350px;
+    position: relative;
+    background-color: transparent;
+    perspective: 1000px;
+    /* width: 100%;
+    height: 100%; */
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.toggle:checked~.flip-card__inner {
+    transform: rotateY(180deg);
+}
+
+.toggle:checked~.flip-card__front {
+    box-shadow: none;
+}
+
+.flip-card__front,
+.flip-card__back {
+    padding: 20px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    background: lightgrey;
     gap: 20px;
     border-radius: 5px;
     border: 2px solid var(--main-color);
     box-shadow: 4px 4px var(--main-color);
 }
 
+.flip-card__back {
+    width: 100%;
+    transform: rotateY(180deg);
+}
+
+.flip-card__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
 .title {
-    color: var(--font-color);
+    margin: 20px 0 20px 0;
+    font-size: 25px;
     font-weight: 900;
-    font-size: 20px;
-    margin-bottom: 25px;
+    text-align: center;
+    color: var(--main-color);
 }
 
-.title span {
-    color: var(--font-color-sub);
-    font-weight: 600;
-    font-size: 17px;
-}
-
-.input {
+.flip-card__input {
     width: 250px;
     height: 40px;
     border-radius: 5px;
@@ -230,45 +526,23 @@
     outline: none;
 }
 
-.input::placeholder {
+.flip-card__input::placeholder {
     color: var(--font-color-sub);
     opacity: 0.8;
 }
 
-.input:focus {
+.flip-card__input:focus {
     border: 2px solid var(--input-focus);
 }
 
-.login-with {
-    display: flex;
-    gap: 20px;
-}
-
-.button-log {
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    border-radius: 100%;
-    border: 2px solid var(--main-color);
-    background-color: var(--bg-color);
-    box-shadow: 4px 4px var(--main-color);
-    color: var(--font-color);
-    font-size: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
-
-.button-log:active,
+.flip-card__btn:active,
 .button-confirm:active {
     box-shadow: 0px 0px var(--main-color);
     transform: translate(3px, 3px);
 }
 
-.button-confirm {
-    margin: 50px auto 0 auto;
+.flip-card__btn {
+    margin: 20px 0 20px 0;
     width: 120px;
     height: 40px;
     border-radius: 5px;
@@ -279,5 +553,4 @@
     font-weight: 600;
     color: var(--font-color);
     cursor: pointer;
- 
 }
