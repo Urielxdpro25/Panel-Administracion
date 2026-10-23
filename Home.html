@@ -5,45 +5,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="LogoPDA.jpeg">
     <title>Inicio</title>
 </head>
-<style>.contenedores {
-    background-color: #388564;
-    padding: 20px 10px;
-    border-radius: 10px;
-    box-shadow: 4px 0 6px rgba(0, 0, 0, .3);
-
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-
-    margin-top: 10px;
-}
-
-.contenedor {
-    background-color: aquamarine;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    width: 100px;
-    height: 100px;
-
-    border-radius: 10px;
-}
-
-@media (max-width: 500px) {
-
+<style>
     .contenedores {
-        grid-template-columns: 1fr;
+        background-color: #388564;
+        padding: 20px 10px;
+        border-radius: 10px;
+        box-shadow: 4px 0 6px rgba(0, 0, 0, .3);
+
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+
+        margin-top: 10px;
     }
 
     .contenedor {
-        width: 100%;
+        background-color: aquamarine;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        width: 100px;
+        height: 100px;
+
+        border-radius: 10px;
     }
 
-}
+    @media (max-width: 500px) {
+
+        .contenedores {
+            grid-template-columns: 1fr;
+        }
+
+        .contenedor {
+            width: 100%;
+        }
+
+    }
 </style>
 
 <body class="body">
@@ -87,7 +89,7 @@
 
     </nav>
 
-      <footer class="footer">
+    <footer class="footer">
         <p class="p">© 2026 Panel de Admistracion. Todos los derechos reservados. La Doble U.</p>
     </footer>
 
@@ -97,16 +99,17 @@
         let valorRecuperado = localStorage.getItem("nombreUsuario");
         document.getElementById("nombre").textContent = valorRecuperado;
 
-       let tareaAlta = localStorage.getItem("prioridad");
+        let tareaAlta = localStorage.getItem("prioridad");
         document.getElementById("PrioridadAlta").textContent = tareaAlta;
 
         const tareasAltas = document.getElementById("tareasAltas");
-        document.getElementById("tareasAltas").addEventListener("click", function() {
+        document.getElementById("tareasAltas").addEventListener("click", function () {
             window.location.href = "Tareas.html";
         });
-        
+
 
     </script>
 
 </body>
+
 </html>

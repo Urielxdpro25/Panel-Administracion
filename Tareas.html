@@ -6,17 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="LogoPDA.jpeg">
 
     <title>To do List</title>
 
     <style>
+        
         .contenedor {
             width: auto;
             height: auto;
             background-color: darkkhaki;
-            padding: 10px;
-            border-radius: 5px;
-            border: 2px solid black;
+            padding: 5px;
         }
 
         .agregar {
@@ -30,7 +30,7 @@
 
         .listado {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(3, 2fr);
             gap: 10px;
             margin-top: 10px;
         }
@@ -44,9 +44,9 @@
             align-items: center;
             flex-direction: column;
             gap: 5px;
+            padding: 10px;
             border: 2px solid black;
             border-radius: 5px;
-            padding: 5px;
         }
 
         .borrar {
@@ -56,14 +56,6 @@
             font-size: 12px;
         }
 
-        .terminadas {
-            background-color: rgb(62, 234, 10);
-            border: 2px solid black;
-            border-radius: 5px;
-            font-size: 12px;
-            
-        }
-
         .input {
             width: 120px;
             height: 20px;
@@ -71,25 +63,18 @@
             border: 1px solid black;
         }
 
-        .selector {
-            width: 120px;
-            height: 20px;
-            border-radius: 5px;
-            border: 1px solid black;
-        }
-
-        .BTNPrioAlta {
-            background-color: rgb(255, 255, 0);
+        .terminadas {
+            width: 130px;
+            height: auto;
+            background-color: aquamarine;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 5px;
+            padding: 10px;
             border: 2px solid black;
             border-radius: 5px;
-            font-size: 12px;
-        }
-
-        .terminadaBTN {
-            background-color: rgb(0, 255, 0);
-            border: 2px solid black;
-            border-radius: 5px;
-            font-size: 12px;
         }
     </style>
 
@@ -119,7 +104,6 @@
 
     </nav>
 
-
     <div class="contenedor">
 
         <button class="agregar" id="agregar">
@@ -128,18 +112,12 @@
 
         <div class="listado" id="listado"></div>
 
-        <div class="listado" id="PrioridadAlta"></div>
+        <h2>Tareas terminadas</h2>
+        <div class="listado" id="terminadas"></div>
 
     </div>
 
-
-    <div class="contenedor">
-
-        <div class="terminadas" id="terminadas">
-        </div>
-
-    </div>
-
+    
 
     <nav aria-label="Paginación de la página">
 
@@ -165,7 +143,7 @@
 
     </nav>
 
-
+    
     <footer class="footer">
 
         <p class="p">
@@ -176,168 +154,62 @@
 
 
     <script>
-
         const boton = document.getElementById("agregar");
         const lista = document.getElementById("listado");
         const terminadas = document.getElementById("terminadas");
-        const prioridadAlta = document.getElementById("PrioridadAlta");
-
+        const contenedor = document.querySelector(".contenedor");
+        let tareasTerminadas = [];
 
         boton.addEventListener("click", añadirTarea);
 
-
         function añadirTarea() {
-
             const card = document.createElement("div");
-
             const borrar = document.createElement("button");
-
-            const terminada = document.createElement("button");
-
             const input = document.createElement("input");
-
-            const selector = document.createElement("select");
-
-            const BTNPrioAlta = document.createElement("button");
-
-
-            // INPUT
+            const check = document.createElement("input");
 
             input.type = "text";
-
             input.placeholder = "Escribe tu tarea";
-
             input.classList.add("input");
 
-
-            // CARD
+            check.type = "checkbox";
+            check.addEventListener("change", () => tareaTerminada(check));
 
             card.classList.add("card");
-
-
-            // BOTÓN BORRAR
-
             borrar.classList.add("borrar");
-
             borrar.textContent = "Borrar";
 
-
-            // BOTÓN TERMINADA
-
-            terminada.classList.add("terminadaBTN");
-
-            terminada.textContent = "Terminada";
-
-
-            // BOTÓN PRIORIDAD
-
-            BTNPrioAlta.classList.add("BTNPrioAlta");
-
-            BTNPrioAlta.textContent = "Mover a Alta Prioridad";
-
-
-            // SELECTOR
-
-            selector.classList.add("selector");
-
-            selector.innerHTML = `
-                <option value="opcion1">Alta</option>
-                <option value="opcion2">Media</option>
-                <option value="opcion3">Baja</option>
-            `;
-
-
-            // AGREGAR ELEMENTOS A LA CARD
-
             card.appendChild(input);
-
+            card.appendChild(check);
             card.appendChild(borrar);
-
-            card.appendChild(terminada);
-
-            card.appendChild(selector);
-
-            card.appendChild(BTNPrioAlta);
-
-
-            // AGREGAR CARD A LA LISTA
-
             lista.appendChild(card);
-
-
-            // CAMBIAR PRIORIDAD
-
-            selector.addEventListener("change", function () {
-
-                if (selector.value === "opcion1") {
-
-                    localStorage.setItem("prioridad", "Alta");
-
-                }
-
-            });
-
-
-            // BOTÓN MOVER A ALTA PRIORIDAD
-
-            BTNPrioAlta.addEventListener("click", function () {
-
-                prioridadAlta.appendChild(card);
-
-                localStorage.setItem("prioridad", "Alta");
-
-            });
-
         }
 
-        // FUNCION PARA ENVIAR A HOME.HTML
-       
+        
+        function tareaTerminada(check) {
+    if (check.checked) {
+        const card = check.parentElement;
+        const input = card.querySelector(".input");
 
-        // MARCAR COMO TERMINADA
+        tareasTerminadas.push(input.value);
 
-        lista.addEventListener("click", marcarTerminada);
+        terminadas.appendChild(card);
 
-        prioridadAlta.addEventListener("click", marcarTerminada);
+        tareasTerminadas.forEach(function(tarea) {
+            console.log(tarea);
+        });
+    }
+}
 
-
-        function marcarTerminada(event) {
-
-            if (event.target.classList.contains("terminadaBTN")) {
-
-                const card = event.target.parentElement;
-
-                const input = card.querySelector("input");
-
-                input.style.textDecoration = "line-through";
-
-                terminadas.appendChild(card);
-
-            }
-
-        }
-
-
-        // BORRAR TAREA
-
-        lista.addEventListener("click", borrarTarea);
-
-        prioridadAlta.addEventListener("click", borrarTarea);
-
-        terminadas.addEventListener("click", borrarTarea);
-
+      
+        contenedor.addEventListener("click", borrarTarea);
 
         function borrarTarea(event) {
-
             if (event.target.classList.contains("borrar")) {
-
                 const card = event.target.parentElement;
-
                 card.remove();
-
             }
-
         }
-
     </script>
 
 </body>

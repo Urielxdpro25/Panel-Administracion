@@ -5,8 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="LogoPDA.jpeg">
+    <link rel="stylesheet" href="./bootstrap-5.3.8-dist/css/bootstrap.min.css">
+
     <title>Productos</title>
 </head>
+<style>
+    .formularios {
+        background-color: aliceblue;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+        border-radius: 10px;
+    }
+</style>
 
 <body class="body">
     <h1 class="h1">Carga de productos</h1>
@@ -15,243 +30,108 @@
         <div class="direccion"><a href="Home.html">Inicio</a></div>
         <div class="direccion"><a href="Graficos.html">Graficos</a></div>
         <div class="direccion"><a href="Tareas.html">Tareas</a></div>
-        <div class="direccion"><a href="Productos.html" class="SideActive" >Productos</a></div>
+        <div class="direccion"><a href="Productos.html" class="SideActive">Productos</a></div>
     </nav>
 
     <form class="formularios">
         <legend>Carga de productos</legend>
-        <input type="file"></input>
-        <Input type="text" placeholder="Nombre Producto">
-        <input type="number" placeholder="Precio Producto">
-        <input type="text" placeholder="Descripcion Producto">
-        <button>Añadir</button>
+        <input type="file" id="ImgProd"></input>
+        <Input type="text" placeholder="Nombre Producto" id="nombreProd">
+        <input type="number" placeholder="Precio Producto" id="precioProd">
+        <input type="text" placeholder="Descripcion Producto" id="descProd">
+        <button id="agregarProd">Añadir</button>
     </form>
+
+    <h2>Zona de productos</h2>
+
+    <div class="row" id="fila">
+
+    </div>
 
 
     <nav aria-label="Paginación de la página">
         <ul class="pagination">
-            <li><a href="Home.html" >1</a></li>
+            <li><a href="Home.html">1</a></li>
             <li><a href="Graficos.html">2</a></li>
             <li><a href="Tareas.html">3</a></li>
             <li><a href="Productos.html" class="active">4</a></li>
         </ul>
     </nav>
 
-       
-      <footer class="footer">
+
+    <footer class="footer">
         <p class="p">© 2026 Panel de Admistracion. Todos los derechos reservados. La Doble U.</p>
     </footer>
 
 </body>
+<script src="./bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
-    
-class Producto {
-    constructor(id, nombre, marca, precio, img, categoria) {
-        this.id = id;
-        this.nombre = nombre;
-        this.marca = marca;
-        this.precio = precio;
-        this.img = img;
-        this.categoria = categoria;
-    }
 
+    const btn = document.getElementById("agregarProd");
 
-};
+    btn.addEventListener("click", (evento) => {
+        evento.preventDefault();
 
-function createProduct(){
-    let nombre = document.querySelector('#nombre-producto').value;
-    let miProducto = new Producto(1,nombre,)
-}
+        const NombreProducto = document.getElementById("nombreProd").value;
+        const PrecioProducto = document.getElementById("precioProd").value;
+        const DescripcionProducto = document.getElementById("descProd").value;
 
-// Contenedor principal
+        if (
+            NombreProducto === "" ||
+            PrecioProducto === "" ||
+            DescripcionProducto === ""
+        ) {
+            alert("Uno o más campos incompletos");
+        } else {
 
-let contenedor = document.getElementById("container");
+            const fila = document.getElementById("fila");
 
+            tarjetas.forEach((elemento) => {
+                let columna = document.createElement("div");
+                columna.classList.add("col-4", "mt-3");
 
-// Creamos la fila
+                let card = document.createElement("div");
+                card.classList.add("card");
 
-let fila = document.createElement("div");
+                let img = document.createElement("img");
+                img.src = elemento.image;
+                img.alt = elemento.titulo;
+                img.classList.add("card-img-top");
+                card.appendChild(img);
 
-fila.classList.add("row");
+                let cardBody = document.createElement("div");
+                cardBody.className = "card-body";
 
+                let cardTitle = document.createElement("h5");
+                cardTitle.classList.add("card-title");
+                cardTitle.textContent = elemento.titulo;
+                cardBody.appendChild(cardTitle);
 
-// Recorremos los productos
+                let cardText = document.createElement("p");
+                cardText.className = "card-text";
+                cardText.textContent = elemento.descripcion;
+                cardBody.appendChild(cardText);
 
-gondola.forEach(x => {
+                let boton = document.createElement("button");
+                boton.classList.add("btn", "btn-success");
+                boton.textContent = "borrar";
 
-    // Columna
 
-    let col = document.createElement("div");
+                cardBody.appendChild(boton);
 
-    col.className = "col-4 pt-3";
+                card.appendChild(cardBody);
+                columna.appendChild(card);
+                fila.appendChild(columna);
+            });
 
+        }
+    })
 
-    // Card
 
-    let card = document.createElement("div");
 
-    card.className = "card";
 
 
-    // Imagen
-
-    let img = document.createElement("img");
-
-    img.src = x.img;
-    img.className = "card-img-top";
-    img.alt = x.nombre;
-
-
-    // Agregamos imagen a la card
-
-    card.appendChild(img);
-
-
-    // Cuerpo de la card
-
-    let cardBody = document.createElement("div");
-
-    cardBody.className = "card-body";
-
-
-    // Título
-
-    let cardTitle = document.createElement("h5");
-
-    cardTitle.className = "card-title";
-
-    cardTitle.textContent = x.nombre + " - " + x.marca;
-
-
-    // Agregamos título
-
-    cardBody.appendChild(cardTitle);
-
-
-    // Texto
-
-    let cardText = document.createElement("p");
-
-    cardText.className = "card-text";
-
-    cardText.textContent =
-        `Categoría: ${x.categoria} - Precio: $${x.precio}`;
-
-
-    // Agregamos texto
-
-    cardBody.appendChild(cardText);
-
-
-    // Botón
-
-    let boton = document.createElement("button");
-
-    boton.className = "btn btn-success";
-
-    boton.textContent = "add";
-
-
-    boton.addEventListener("click", () => {
-
-        add(x);
-
-        render();
-
-    });
-
-
-    // Agregamos botón
-
-    cardBody.appendChild(boton);
-
-
-    // Agregamos cuerpo a card
-
-    card.appendChild(cardBody);
-
-
-    // Agregamos card a columna
-
-    col.appendChild(card);
-
-
-    // Agregamos columna a fila
-
-    fila.appendChild(col);
-
-});
-
-
-// Agregamos la fila al contenedor
-
-contenedor.appendChild(fila);
-
-
-// Función para agregar productos al carrito
-
-function add(y) {
-
-    carrito.agregar(y);
-
-    console.log(carrito.productos);
-
-}
-
-function eliminar(p){
-    carrito.borrar(p);
-    console.log(carrito.productos)
-    render();
-}
-
-// Función para mostrar los productos del carrito
-
-function render() {
-
-    let ul = document.getElementById("listado_productos");
-
-    ul.innerHTML = "";
-
-//recoremos los productos y con el ul mostramos cada item
-    carrito.productos.forEach(p => {
-
-        let li = document.createElement("li");
-        li.className = ""
-
-        li.textContent =
-            `Nombre: ${p.nombre} - Marca: ${p.marca} - $${p.precio}`;
-
-
-        // Botón borrar
-
-        let button_borrar = document.createElement("button");
-
-        button_borrar.className = "btn btn-danger m-3";
-
-        button_borrar.textContent = "borrar";
-
-
-        button_borrar.addEventListener("click", () => {
-
-            eliminar(p);
-            console.log(carrito.productos);
-
-            render();
-
-        });
-
-
-        li.appendChild(button_borrar);
-
-        ul.appendChild(li);
-
-    });
-
-
-} //del render
-
-
- 
 
 </script>
 
