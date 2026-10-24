@@ -5,8 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="LogoPDA.jpeg">
+    <link rel="stylesheet" href="./bootstrap-5.3.8-dist/css/bootstrap.min.css">
+
     <title>Productos</title>
 </head>
+<style>
+    .formularios {
+        background-color: aliceblue;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+        border-radius: 10px;
+    }
+</style>
 
 <body class="body">
     <h1 class="h1">Carga de productos</h1>
@@ -15,19 +30,109 @@
         <div class="direccion"><a href="Home.html">Inicio</a></div>
         <div class="direccion"><a href="Graficos.html">Graficos</a></div>
         <div class="direccion"><a href="Tareas.html">Tareas</a></div>
-        <div class="direccion"><a href="Productos.html" class="SideActive" >Productos</a></div>
+        <div class="direccion"><a href="Productos.html" class="SideActive">Productos</a></div>
     </nav>
 
-    <nav aria-label="Paginación de la página">
+    <form class="formularios">
+        <legend>Carga de productos</legend>
+        <input type="file" id="ImgProd"></input>
+        <Input type="text" placeholder="Nombre Producto" id="nombreProd">
+        <input type="number" placeholder="Precio Producto" id="precioProd">
+        <input type="text" placeholder="Descripcion Producto" id="descProd">
+        <button id="agregarProd">Añadir</button>
+    </form>
 
+    <h2>Zona de productos</h2>
+
+    <div class="row" id="fila">
+
+    </div>
+
+
+    <nav aria-label="Paginación de la página">
         <ul class="pagination">
-            <li><a href="Home.html" >1</a></li>
+            <li><a href="Home.html">1</a></li>
             <li><a href="Graficos.html">2</a></li>
             <li><a href="Tareas.html">3</a></li>
             <li><a href="Productos.html" class="active">4</a></li>
         </ul>
     </nav>
 
+
+    <footer class="footer">
+        <p class="p">© 2026 Panel de Admistracion. Todos los derechos reservados. La Doble U.</p>
+    </footer>
+
 </body>
+<script src="./bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+    const btn = document.getElementById("agregarProd");
+
+    btn.addEventListener("click", (evento) => {
+        evento.preventDefault();
+
+        const NombreProducto = document.getElementById("nombreProd").value;
+        const PrecioProducto = document.getElementById("precioProd").value;
+        const DescripcionProducto = document.getElementById("descProd").value;
+
+        if (
+            NombreProducto === "" ||
+            PrecioProducto === "" ||
+            DescripcionProducto === ""
+        ) {
+            alert("Uno o más campos incompletos");
+        } else {
+
+            const fila = document.getElementById("fila");
+
+            tarjetas.forEach((elemento) => {
+                let columna = document.createElement("div");
+                columna.classList.add("col-4", "mt-3");
+
+                let card = document.createElement("div");
+                card.classList.add("card");
+
+                let img = document.createElement("img");
+                img.src = elemento.image;
+                img.alt = elemento.titulo;
+                img.classList.add("card-img-top");
+                card.appendChild(img);
+
+                let cardBody = document.createElement("div");
+                cardBody.className = "card-body";
+
+                let cardTitle = document.createElement("h5");
+                cardTitle.classList.add("card-title");
+                cardTitle.textContent = elemento.titulo;
+                cardBody.appendChild(cardTitle);
+
+                let cardText = document.createElement("p");
+                cardText.className = "card-text";
+                cardText.textContent = elemento.descripcion;
+                cardBody.appendChild(cardText);
+
+                let boton = document.createElement("button");
+                boton.classList.add("btn", "btn-success");
+                boton.textContent = "borrar";
+
+
+                cardBody.appendChild(boton);
+
+                card.appendChild(cardBody);
+                columna.appendChild(card);
+                fila.appendChild(columna);
+            });
+
+        }
+    })
+
+
+
+
+
+
+</script>
 
 </html>

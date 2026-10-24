@@ -1,15 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="LogoPDA.jpeg">
     <title>Graficos</title>
 </head>
+<style>
+    .grafico {
+        background-color: aliceblue;
+        gap: 20px;
+        padding: 10px;
+        display: grid;
+        justify-content: space-around;
+
+    }
+</style>
+
 <body class="body">
     <h1 class="h1">Graficos</h1>
 
-    
+
     <nav class="navbar">
 
         <div class="direccion">
@@ -30,6 +43,27 @@
     </nav>
 
 
+
+
+    <div class="dashboard">
+
+        <div class="grafico">
+            <h2>Productos - Puntos</h2>
+            <canvas id="graficoPuntos"></canvas>
+        </div>
+
+        <div class="grafico">
+            <h2>Productos - Barras</h2>
+            <canvas id="graficoBarras"></canvas>
+        </div>
+
+        <div class="grafico">
+            <h2>Productos - Distribución</h2>
+            <canvas id="graficoTorta"></canvas>
+        </div>
+
+    </div>
+
     <nav aria-label="Paginación de la página">
         <ul class="pagination">
             <li><a href="Home.html">1</a></li>
@@ -40,5 +74,70 @@
     </nav>
 
 
+    <footer class="footer">
+        <p class="p">© 2026 Panel de Admistracion. Todos los derechos reservados. La Doble U.</p>
+    </footer>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+
+        const productos = [
+            { nombre: "Remera", cantidad: 25 },
+            { nombre: "Pantalón", cantidad: 13 },
+            { nombre: "Zapatillas", cantidad: 29 },
+            { nombre: "Campera", cantidad: 10 },
+            { nombre: "Gorra", cantidad: 20 }
+        ];
+
+        const nombres = productos.map(producto => producto.nombre);
+
+        const cantidades = productos.map(producto => producto.cantidad);
+
+        new Chart(document.getElementById("graficoBarras"), {
+            type: "bar",
+
+            data: {
+                labels: nombres,
+
+                datasets: [{
+                    label: "Cantidad",
+                    data: cantidades
+                }]
+            }
+        });
+
+        new Chart(document.getElementById("graficoTorta"), {
+            type: "pie",
+
+            data: {
+                labels: nombres,
+
+                datasets: [{
+                    data: cantidades
+                }]
+            }
+        });
+
+        new Chart(document.getElementById("graficoPuntos"), {
+            type: "scatter",
+
+            data: {
+                datasets: [{
+                    label: "Cantidad de productos",
+
+                    data: productos.map((producto, indice) => ({
+                        x: indice + 1,
+                        y: producto.cantidad
+                    }))
+                }]
+            }
+        });
+
+    </script>
+
 </body>
+
 </html>

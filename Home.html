@@ -5,13 +5,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="LogoPDA.jpeg">
     <title>Inicio</title>
 </head>
+<style>
+    .contenedores {
+        background-color: #388564;
+        padding: 20px 10px;
+        border-radius: 10px;
+        box-shadow: 4px 0 6px rgba(0, 0, 0, .3);
+
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+
+        margin-top: 10px;
+    }
+
+    .contenedor {
+        background-color: aquamarine;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        width: 100px;
+        height: 100px;
+
+        border-radius: 10px;
+    }
+
+    @media (max-width: 500px) {
+
+        .contenedores {
+            grid-template-columns: 1fr;
+        }
+
+        .contenedor {
+            width: 100%;
+        }
+
+    }
+</style>
 
 <body class="body">
 
-    <h1 class="h1">Bienvenido!!</h1>
-
+    <h1>Bienvenido/a, <span id="nombre"></span>.</h1>
 
     <nav class="navbar">
 
@@ -20,7 +59,7 @@
         </div>
 
         <div class="direccion">
-            <a href="Graficos.html">Graficos</a>
+            <a href="Graficos.html">Gráficos</a>
         </div>
 
         <div class="direccion">
@@ -28,25 +67,48 @@
         </div>
 
         <div class="direccion">
-            <a href="Tareas.html">Productos</a>
+            <a href="Productos.html">Productos</a>
         </div>
+
     </nav>
 
-    
+    <div class="contenedores">
+        <div class="contenedor" id="tareasAltas">
+            <h2>Tareas</h2>
+        </div>
+    </div>
+
     <nav aria-label="Paginación de la página">
 
         <ul class="pagination">
-            <li><a href="#">&laquo;</a></li>
             <li><a href="Home.html" class="active">1</a></li>
             <li><a href="Graficos.html">2</a></li>
             <li><a href="Tareas.html">3</a></li>
             <li><a href="Productos.html">4</a></li>
-            <li><a href="#">&raquo;</a></li>
         </ul>
+
     </nav>
 
+    <footer class="footer">
+        <p class="p">© 2026 Panel de Admistracion. Todos los derechos reservados. La Doble U.</p>
+    </footer>
 
 
+
+    <script>
+        let valorRecuperado = localStorage.getItem("nombreUsuario");
+        document.getElementById("nombre").textContent = valorRecuperado;
+
+        let tareaAlta = localStorage.getItem("prioridad");
+        document.getElementById("PrioridadAlta").textContent = tareaAlta;
+
+        const tareasAltas = document.getElementById("tareasAltas");
+        document.getElementById("tareasAltas").addEventListener("click", function () {
+            window.location.href = "Tareas.html";
+        });
+
+
+    </script>
 
 </body>
 
