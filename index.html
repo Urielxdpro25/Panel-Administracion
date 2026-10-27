@@ -12,15 +12,22 @@
 <body class="body">
 
     <!-- From Uiverse.io by ayyjayy2 -->
-    <form class="form" method="post">
+    <form class="form" method="post" id="formulario">
         <div class="title">Welcome,<br><span>sign up to continue</span></div>
+        <input class="input" name="nombre" placeholder="nombre" type="text" id="name" required>
         <input class="input" name="email" placeholder="Email" type="email" id="email" required>
         <input class="input" name="password" placeholder="Password" type="password" id="pass" required>
         <button class="button-confirm">Let`s go →</button>
     </form>
 
+    <footer class="footer">
+        <p class="p">© 2026 Panel de Admistracion. Todos los derechos reservados. La Doble U.</p>
+        <img src="LogoPDA.jpeg" class="img">
+    </footer>
 
     <script type="module" src="main.js"></script>
+    <script type="module" src="./utils/localStorage.js"></script>
+
 </body>
 
 </html>
