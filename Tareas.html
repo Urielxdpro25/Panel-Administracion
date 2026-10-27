@@ -11,7 +11,6 @@
     <title>To do List</title>
 
     <style>
-        
         .contenedor {
             width: auto;
             height: auto;
@@ -83,6 +82,7 @@
 <body class="body">
 
     <h1>To do List</h1>
+    <p>Bienvenido/a, <span id="nombre"></span> , esta es la seccion de tareas.</p>
 
     <nav class="navbar">
 
@@ -117,7 +117,7 @@
 
     </div>
 
-    
+
 
     <nav aria-label="Paginación de la página">
 
@@ -184,23 +184,23 @@
             lista.appendChild(card);
         }
 
-        
+
         function tareaTerminada(check) {
-    if (check.checked) {
-        const card = check.parentElement;
-        const input = card.querySelector(".input");
+            if (check.checked) {
+                const card = check.parentElement;
+                const input = card.querySelector(".input");
 
-        tareasTerminadas.push(input.value);
+                tareasTerminadas.push(input.value);
 
-        terminadas.appendChild(card);
+                terminadas.appendChild(card);
 
-        tareasTerminadas.forEach(function(tarea) {
-            console.log(tarea);
-        });
-    }
-}
+                tareasTerminadas.forEach(function (tarea) {
+                    console.log(tarea);
+                });
+            }
+        }
 
-      
+
         contenedor.addEventListener("click", borrarTarea);
 
         function borrarTarea(event) {
@@ -211,6 +211,7 @@
         }
     </script>
 
+    <script src="./utils/mostrarNombre.js"></script>
 </body>
 
 </html>
