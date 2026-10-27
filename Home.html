@@ -9,13 +9,7 @@
     <title>Inicio</title>
 </head>
 <style>
-    .contenedorTareas {
-        background-color: cadetblue;
-        width: 200px;
-        height: auto;
-        gap: 20px;
-        padding: 20px;
-    }
+   
 </style>
 
 <body class="body">
@@ -95,6 +89,8 @@
 
     </div>
 
+
+
     <nav aria-label="Paginación de la página">
 
         <ul class="pagination">
@@ -113,7 +109,12 @@
 
 
 
-    <script src="./utils/mostrarNombre.js"></script>
+    <script>
+        let valorRecuperado = localStorage.getItem("nombreUsuario");
+        document.getElementById("nombre").textContent = valorRecuperado;
+
+
+    </script>
 
 </body>
 
