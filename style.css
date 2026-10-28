@@ -47,6 +47,82 @@
   border-color: black;
 }
 
+.popup {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.popup > input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.burger {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #176b49;
+  border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color .2s ease, transform .2s ease;
+}
+
+.burger:hover {
+  background-color: #23845c;
+}
+
+.popup > input:focus-visible + .burger {
+  outline: 3px solid #45c9a4;
+  outline-offset: 3px;
+}
+
+.popup-window {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  background-color: #fff;
+  border: 1px solid #d5e3db;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .2);
+  z-index: 1001;
+}
+
+.popup > input:checked ~ .popup-window {
+  display: block;
+}
+
+.popup-window ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.popup-window a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  color: #0f5739;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+.popup-window a:hover,
+.popup-window a:focus-visible {
+  color: #fff;
+  background-color: #0f5739;
+}
+
 /* Contenedor de los enlaces */
 .direccion {
   display: flex;
