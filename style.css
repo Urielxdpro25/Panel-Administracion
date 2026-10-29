@@ -211,41 +211,64 @@
 
 
 
-
-
 @media (max-width: 780px) {
+  body,
+  .body {
+    padding-bottom: 80px;
+  }
 
-  body {
-    padding: 10px 5px;
+  .popup {
+    width: 44px;
+    flex: 0 0 44px;
+  }
+
+  .popup-window {
+    top: auto;
+    bottom: 0;
+    left: calc(100% + 8px);
+    width: 190px;
   }
 
   .navbar {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
     width: 100%;
     height: auto;
-    padding: 15px 10px;
-    gap: 12px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    position: static;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 10px;
+    border-radius: 12px 12px 0 0;
+    z-index: 1000;
   }
 
   .direccion {
-    width: 100%;
-    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 0;
   }
 
   .direccion a {
-    width: auto;
-    font-size: 1rem;
-    padding: 10px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 4px;
+    font-size: 0.75rem;
+    border-left: 0;
+    border-top: 3px solid transparent;
   }
 
-  .footer {
-    margin-top: auto;
-    font-size: 0.9rem;
+  .direccion a:hover,
+  .direccion a.SideActive {
+    border-top-color: #45c9a4;
   }
 }
+
 
 /* Footer styles */
 .footer{
