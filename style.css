@@ -41,12 +41,52 @@
   z-index: 1000;
 }
 
+#mySidebar {
+  transition: width 0.25s ease;
+}
+
+#mySidebar.collapsed {
+  width: 76px;
+  align-items: center;
+}
+
+#mySidebar.collapsed .direccion {
+  width: 100%;
+}
+
+#mySidebar.collapsed .direccion a {
+  display: flex;
+  justify-content: center;
+  padding: 12px 8px;
+}
+
+#mySidebar .sidebar-label {
+  white-space: nowrap;
+}
+
+#mySidebar.collapsed .sidebar-label {
+  display: none;
+}
+
+.openbtn {
+  position: fixed;
+  top: 20px;
+  left: 88px;
+  z-index: 1001;
+}
+
+.openbtn[hidden],
+.closebtn[hidden] {
+  display: none;
+}
+
 .navbar .SideActive {
   background-color: #eaefe9;
   color: #0f5739;
   border-color: black;
 }
 
+/* boton usuario */
 .popup {
   position: relative;
   display: block;
@@ -242,6 +282,24 @@
     gap: 10px;
     border-radius: 12px 12px 0 0;
     z-index: 1000;
+  }
+
+  #mySidebar.collapsed {
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #mySidebar.collapsed .direccion {
+    width: auto;
+  }
+
+  #mySidebar.collapsed .sidebar-label {
+    display: inline;
+  }
+
+  .openbtn,
+  #mySidebar .closebtn {
+    display: none;
   }
 
   .direccion {
