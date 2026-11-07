@@ -89,7 +89,9 @@
 /* boton usuario */
 .popup {
   position: relative;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
 }
 
