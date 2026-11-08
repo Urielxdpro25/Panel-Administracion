@@ -13,3 +13,14 @@ export class Productos {
         this.#stock = stock
     }
 }
+
+export class stock {
+    #nombre;
+    #cantidad;
+    #fecha;
+    constructor(nombre, cantidad,fecha ) {
+        this.#nombre = nombre;
+        this.#cantidad = cantidad;
+        this.#fecha = fecha;
+    }
+}

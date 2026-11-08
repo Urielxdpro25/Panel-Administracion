@@ -22,9 +22,80 @@
         border-radius: 10px;
     }
 
-    .legacy-navbar {
-        display: none;
+    .ImgProd{
+        height: auto;
+        width: 40%;
     }
+
+    #fila {
+        width: min(1200px, 100%);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: stretch;
+        gap: 1rem;
+        background-color: transparent;
+        padding: 1rem 0;
+        height: auto;
+    }
+
+    #fila .card {
+        border: none;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 10px 24px rgba(15, 87, 57, 0.12);
+        background: #ffffff;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        height: 100%;
+    }
+
+    #fila .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 32px rgba(15, 87, 57, 0.18);
+    }
+
+    #fila .card-img-top {
+        height: 180px;
+        object-fit: cover;
+        width: 100%;
+    }
+
+    #fila .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+
+    #fila .card-title {
+        margin: 0;
+        color: #0f5739;
+        font-weight: 700;
+    }
+
+    #fila .card-text {
+        margin: 0;
+        color: #404040;
+    }
+
+    #fila .btn-success {
+        width: 100%;
+        margin-top: auto;
+        background-color: crimson;
+    }
+
+    #fila .btn-success :hover{
+        background-color: red;
+    }
+
+    .CargarProd{
+        background-color: darkcyan;
+        }
+        .CargarProd:hover{
+            background-color: cadetblue;
+        }
+
 </style>
 
 <body class="body">
@@ -97,7 +168,7 @@
         </div>
 
         <div class="direccion">
-            <a href="Productos.html" aria-label="Productos" class="SideActive" >
+            <a href="Productos.html" aria-label="Productos" class="SideActive">
                 <span class="sidebar-label">Productos</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-box-seam" viewBox="0 0 16 16">
@@ -121,12 +192,14 @@
 
 
 
+
+
     <form class="formularios">
         <legend>Carga de productos</legend>
-        <input type="file" id="ImgProd"></input>
         <Input type="text" placeholder="Nombre Producto" id="nombreProd">
-        <input type="number" placeholder="Precio Producto" id="precioProd">
         <input type="text" placeholder="Descripcion Producto" id="descProd">
+        <input type="number" placeholder="Precio Producto" id="precioProd">
+        <input type="file" id="ImgProd">
         <button id="agregarProd">Añadir</button>
     </form>
 
@@ -135,7 +208,6 @@
     <div class="row" id="fila">
 
     </div>
-
 
     <footer class="footer">
         <footer class="footer">
@@ -148,74 +220,8 @@
 
 <script src="./bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
 <script src="./utils/sidebar.js"></script>
-
-<script>
-
-    const btn = document.getElementById("agregarProd");
-
-    btn.addEventListener("click", (evento) => {
-        evento.preventDefault();
-
-        const NombreProducto = document.getElementById("nombreProd").value;
-        const PrecioProducto = document.getElementById("precioProd").value;
-        const DescripcionProducto = document.getElementById("descProd").value;
-
-        if (
-            NombreProducto === "" ||
-            PrecioProducto === "" ||
-            DescripcionProducto === ""
-        ) {
-            alert("Uno o más campos incompletos");
-        } else {
-
-            const fila = document.getElementById("fila");
-
-            tarjetas.forEach((elemento) => {
-                let columna = document.createElement("div");
-                columna.classList.add("col-4", "mt-3");
-
-                let card = document.createElement("div");
-                card.classList.add("card");
-
-                let img = document.createElement("img");
-                img.src = elemento.image;
-                img.alt = elemento.titulo;
-                img.classList.add("card-img-top");
-                card.appendChild(img);
-
-                let cardBody = document.createElement("div");
-                cardBody.className = "card-body";
-
-                let cardTitle = document.createElement("h5");
-                cardTitle.classList.add("card-title");
-                cardTitle.textContent = elemento.titulo;
-                cardBody.appendChild(cardTitle);
-
-                let cardText = document.createElement("p");
-                cardText.className = "card-text";
-                cardText.textContent = elemento.descripcion;
-                cardBody.appendChild(cardText);
-
-                let boton = document.createElement("button");
-                boton.classList.add("btn", "btn-success");
-                boton.textContent = "borrar";
+<script type="module" src="./CardProductos.js"></script>
 
 
-                cardBody.appendChild(boton);
-
-                card.appendChild(cardBody);
-                columna.appendChild(card);
-                fila.appendChild(columna);
-            });
-
-        }
-    })
-
-
-
-
-
-
-</script>
 
 </html>
