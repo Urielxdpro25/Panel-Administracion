@@ -10,6 +10,13 @@
 </head>
 <style>
    
+    #tareas{
+        background-color: aquamarine;
+        gap: 20px;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
 </style>
 
 <body class="body">
@@ -107,6 +114,10 @@
 
 
     <div class="contenedores">
+        <section id="tareas">
+            <h2>Tareas de prioridad alta</h2>
+            <ul id="lista-tareas-alta"></ul>
+        </section>
 
     </div>
 
@@ -124,6 +135,14 @@
         let valorRecuperado = localStorage.getItem("nombreUsuario");
         document.getElementById("nombre").textContent = valorRecuperado;
 
+        const tareasAlta = JSON.parse(localStorage.getItem("tareasPrioridadAlta") || "[]");
+        const listaTareasAlta = document.getElementById("lista-tareas-alta");
+
+        tareasAlta.forEach((tarea) => {
+            const elemento = document.createElement("li");
+            elemento.textContent = tarea;
+            listaTareasAlta.appendChild(elemento);
+        });
 
     </script>
 

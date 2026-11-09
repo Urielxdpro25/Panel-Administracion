@@ -15,7 +15,8 @@
             width: auto;
             height: auto;
             background-color: darkkhaki;
-            padding: 5px;
+            padding: 10px;
+            border-radius: 10px;
         }
 
         .agregar {
@@ -82,7 +83,8 @@
 <body class="body">
 
     <h1>To do List</h1>
-    <p>Bienvenido/a, <span id="nombre"></span> , esta es la seccion de tareas.</p>
+    <p> 
+        Esta es la seccion de tareas.</p>
 
 
     <!-- Botón para abrir el sidebar -->
@@ -120,7 +122,7 @@
 
         <!-- Navegación principal -->
         <div class="direccion">
-            <a href="Home.html" aria-label="Inicio" >
+            <a href="Home.html" aria-label="Inicio">
                 <span class="sidebar-label">Inicio</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-house-fill" viewBox="0 0 16 16">
@@ -141,7 +143,7 @@
         </div>
 
         <div class="direccion">
-            <a href="Tareas.html" aria-label="Tareas" class="SideActive" >
+            <a href="Tareas.html" aria-label="Tareas" class="SideActive">
                 <span class="sidebar-label">Tareas</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-clipboard-fill" viewBox="0 0 16 16">
@@ -190,8 +192,8 @@
 
 
 
-    
-   
+
+
     <footer class="footer">
         <p class="p">© 2026 Panel de Admistracion. Todos los derechos reservados. La Doble U.</p>
         <img src="LogoPDA.jpeg" class="img">
@@ -208,20 +210,47 @@
         const contenedor = document.querySelector(".contenedor");
         let tareasTerminadas = [];
 
-        boton.addEventListener("click", añadirTarea);
+        boton.addEventListener("click", () => añadirTarea());
 
-        function añadirTarea() {
+        const tareasAltaGuardadas = JSON.parse(localStorage.getItem("tareasPrioridadAlta") || "[]");
+        tareasAltaGuardadas.forEach((tarea) => añadirTarea(tarea, "alta"));
+
+        function añadirTarea(texto = "", prioridad = "alta") {
             const card = document.createElement("div");
             const borrar = document.createElement("button");
             const input = document.createElement("input");
             const check = document.createElement("input");
+            const selection = document.createElement("select");
 
             input.type = "text";
             input.placeholder = "Escribe tu tarea";
             input.classList.add("input");
+            input.value = texto;
 
             check.type = "checkbox";
-            check.addEventListener("change", () => tareaTerminada(check));
+            check.addEventListener("change", () => {
+                tareaTerminada(check);
+                guardarTareasAlta();
+            });
+
+            selection.classList.add("selection");
+
+            const option1 = document.createElement("option");
+            option1.value = "alta";
+            option1.textContent = "Prioridad Alta";
+
+            const option2 = document.createElement("option");
+            option2.value = "media";
+            option2.textContent = "Prioridad Media";
+
+            const option3 = document.createElement("option");
+            option3.value = "baja";
+            option3.textContent = "Prioridad Baja";
+
+            selection.append(option1, option2, option3);
+            selection.value = prioridad;
+            input.addEventListener("input", guardarTareasAlta);
+            selection.addEventListener("change", guardarTareasAlta);
 
             card.classList.add("card");
             borrar.classList.add("borrar");
@@ -229,8 +258,22 @@
 
             card.appendChild(input);
             card.appendChild(check);
+            card.appendChild(selection);
             card.appendChild(borrar);
             lista.appendChild(card);
+        }
+
+        function guardarTareasAlta() {
+            const tareasAlta = Array.from(contenedor.querySelectorAll(".card"))
+                .map((card) => ({
+                    texto: card.querySelector(".input").value.trim(),
+                    prioridad: card.querySelector(".selection").value,
+                    check: card.querySelector('input[type="checkbox"]').checked
+                }))
+                .filter((tarea) => tarea.texto && tarea.prioridad === "alta" && !tarea.check)
+                .map((tarea) => tarea.texto);
+
+            localStorage.setItem("tareasPrioridadAlta", JSON.stringify(tareasAlta));
         }
 
 
@@ -256,6 +299,7 @@
             if (event.target.classList.contains("borrar")) {
                 const card = event.target.parentElement;
                 card.remove();
+                guardarTareasAlta();
             }
         }
     </script>
