@@ -9,21 +9,20 @@
     <title>Inicio|PDA</title>
 </head>
 <style>
-   
-    #tareas{
+    #tareas,
+    #materias-home {
         background-color: aquamarine;
         gap: 20px;
         padding: 20px;
         border-radius: 10px;
     }
-
 </style>
 
 <body class="body">
 
     <h1>Bienvenido/a, <span id="nombre"></span>.</h1>
 
-  
+
     <!-- Botón para abrir el sidebar -->
     <button class="openbtn" onclick="openNav()" aria-label="Expandir menú" hidden>
         ☰
@@ -118,6 +117,11 @@
             <h2>Tareas de prioridad alta</h2>
             <ul id="lista-tareas-alta"></ul>
         </section>
+        <br>
+        <section id="materias-home">
+            <h2>Materias primas</h2>
+            <ul id="lista-materias"></ul>
+        </section>
 
     </div>
 
@@ -142,6 +146,25 @@
             const elemento = document.createElement("li");
             elemento.textContent = tarea;
             listaTareasAlta.appendChild(elemento);
+        });
+
+        const listaMaterias = document.getElementById("lista-materias");
+        const mostrarNombresMaterias = () => {
+            const materias = JSON.parse(localStorage.getItem("materiasStock") || "[]");
+            listaMaterias.replaceChildren();
+
+            materias.forEach((materia) => {
+                const elemento = document.createElement("li");
+                elemento.textContent = materia.nombre;
+                listaMaterias.appendChild(elemento);
+            });
+        };
+
+        mostrarNombresMaterias();
+        window.addEventListener("storage", (event) => {
+            if (event.key === "materiasStock") {
+                mostrarNombresMaterias();
+            }
         });
 
     </script>

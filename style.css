@@ -95,7 +95,7 @@
   width: 100%;
 }
 
-.popup > input {
+.popup>input {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -119,7 +119,7 @@
   background-color: #23845c;
 }
 
-.popup > input:focus-visible + .burger {
+.popup>input:focus-visible+.burger {
   outline: 3px solid #45c9a4;
   outline-offset: 3px;
 }
@@ -139,7 +139,7 @@
   z-index: 1001;
 }
 
-.popup > input:checked ~ .popup-window {
+.popup>input:checked~.popup-window {
   display: block;
 }
 
@@ -269,6 +269,7 @@
 
 
 @media (max-width: 780px) {
+
   body,
   .body {
     padding-bottom: 80px;
@@ -346,7 +347,7 @@
 
 
 /* Footer styles */
-.footer{
+.footer {
   gap: 20px;
 }
 
@@ -364,12 +365,152 @@
 /* fin Footer styles */
 
 
+#FormStock {
+  box-sizing: border-box;
+  width: min(520px, 100%);
+  margin-inline: auto;
+  padding: 12px;
+  background-color: #23845c;
+  border-radius: 10px;
+}
 
-/* Productos */
+#FormStock fieldset {
+  box-sizing: border-box;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  min-width: 0;
+  margin: 0;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, .7);
+  border-radius: 8px;
+  color: #fff;
+}
 
-/* Fin Productos */
+#FormStock legend {
+  float: none;
+  width: auto;
+  padding: 0 6px;
+}
 
+.stock-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
 
+.stock-campo label {
+  font-weight: 600;
+}
+
+.stock-campo input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid #d5e3db;
+  border-radius: 6px;
+}
+
+.stock-accion {
+  display: flex;
+  align-items: flex-end;
+}
+
+#CM {
+  min-height: 40px;
+  padding: 9px 18px;
+  border: 0;
+  border-radius: 8px;
+  background-color: #0f5739;
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+#CM:hover {
+  background-color: #176b49;
+  box-shadow: 0 4px 10px rgba(15, 87, 57, .25);
+}
+
+#CM:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+#CM:focus-visible {
+  outline: 3px solid #45c9a4;
+  outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+  #FormStock {
+    padding: 8px;
+  }
+
+  #FormStock fieldset {
+    gap: 16px;
+    padding: 12px;
+  }
+
+  .stock-campo input {
+    font-size: 16px;
+  }
+
+  #CM {
+    width: 100%;
+  }
+}
+
+#cardM{
+  background-color: #45c9a4;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 15px;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.materia-card {
+  padding: 16px;
+  background-color: #fff;
+  border: 1px solid #0f5739;
+  border-radius: 10px;
+  overflow-wrap: anywhere;
+}
+
+.materia-card-titulo {
+  margin-top: 0;
+  color: #0f5739;
+}
+
+.btn-borrar-materia {
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 6px;
+  background-color: #a83232;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+  transition: background-color .2s ease, transform .2s ease;
+}
+
+.btn-borrar-materia:hover {
+  background-color: #842626;
+}
+
+.btn-borrar-materia:active {
+  transform: translateY(1px);
+}
+
+.btn-borrar-materia:focus-visible {
+  outline: 3px solid #0f5739;
+  outline-offset: 3px;
+}
 
 /* From Uiverse.io by ayyjayy2 */
 .form {
@@ -450,7 +591,7 @@
   width: 24px;
   height: 24px;
   fill: var(--main-color);
- 
+
 }
 
 .button-log:active,

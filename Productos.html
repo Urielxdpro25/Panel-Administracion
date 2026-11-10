@@ -12,19 +12,90 @@
 </head>
 <style>
     .formularios {
-        background-color: aliceblue;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        gap: 10px;
-        padding: 10px;
+        box-sizing: border-box;
+        width: min(520px, 100%);
+        margin-inline: auto;
+        padding: 12px;
+        background-color: #23845c;
         border-radius: 10px;
     }
 
-    .ImgProd{
-        height: auto;
-        width: 40%;
+    .formularios fieldset {
+        box-sizing: border-box;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        min-width: 0;
+        margin: 0;
+        padding: 16px;
+        border: 1px solid rgba(255, 255, 255, .7);
+        border-radius: 8px;
+    }
+
+    .formularios legend {
+        float: none;
+        width: auto;
+        padding: 0 6px;
+        color: #fff;
+    }
+
+    .producto-campo {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        min-width: 0;
+    }
+
+    .producto-campo label {
+        color: #fff;
+        font-weight: 600;
+    }
+
+    .producto-campo input {
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 0;
+        padding: 8px 10px;
+        border: 1px solid #d5e3db;
+        border-radius: 6px;
+    }
+
+    .producto-campo input[type="file"] {
+        font-size: 14px;
+    }
+
+    .producto-accion {
+        display: flex;
+        align-items: flex-end;
+    }
+
+    #agregarProd {
+        min-height: 40px;
+        padding: 9px 18px;
+        border: 0;
+        border-radius: 8px;
+        background-color: #0f5739;
+        color: #fff;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color .2s ease, transform .2s ease, box-shadow .2s ease;
+    }
+
+    #agregarProd:hover {
+        background-color: #176b49;
+        box-shadow: 0 4px 10px rgba(15, 87, 57, .25);
+    }
+
+    #agregarProd:active {
+        transform: translateY(1px);
+        box-shadow: none;
+    }
+
+    #agregarProd:focus-visible {
+        outline: 3px solid #fff;
+        outline-offset: 3px;
     }
 
     #fila {
@@ -96,11 +167,33 @@
             background-color: cadetblue;
         }
 
+        @media (max-width: 480px) {
+            .formularios {
+                padding: 8px;
+            }
+
+            .formularios fieldset {
+                gap: 16px;
+                padding: 12px;
+            }
+
+            .producto-campo input {
+                font-size: 16px;
+            }
+
+            .producto-campo input[type="file"] {
+                font-size: 14px;
+            }
+
+            .producto-accion #agregarProd {
+                width: 100%;
+            }
+        }
+
 </style>
 
 <body class="body">
     <h1 class="h1">Carga de productos</h1>
-    <p>Bienvenido/a, <span id="nombre"></span> , esta es la seccion para cargar productos .</p>
 
     <!-- Botón para abrir el sidebar -->
     <button class="openbtn" onclick="openNav()" aria-label="Expandir menú" hidden>
@@ -195,12 +288,33 @@
 
 
     <form class="formularios">
-        <legend>Carga de productos</legend>
-        <Input type="text" placeholder="Nombre Producto" id="nombreProd">
-        <input type="text" placeholder="Descripcion Producto" id="descProd">
-        <input type="number" placeholder="Precio Producto" id="precioProd">
-        <input type="file" id="ImgProd">
-        <button id="agregarProd">Añadir</button>
+        <fieldset>
+            <legend>Carga de productos</legend>
+
+            <div class="producto-campo">
+                <label for="nombreProd">Nombre del producto</label>
+                <input type="text" placeholder="Nombre Producto" id="nombreProd" required>
+            </div>
+
+            <div class="producto-campo">
+                <label for="descProd">Descripción</label>
+                <input type="text" placeholder="Descripcion Producto" id="descProd" required>
+            </div>
+
+            <div class="producto-campo">
+                <label for="precioProd">Precio</label>
+                <input type="number" placeholder="Precio Producto" id="precioProd" min="0" step="any" required>
+            </div>
+
+            <div class="producto-campo">
+                <label for="ImgProd">Imagen del producto</label>
+                <input type="file" id="ImgProd" accept="image/*">
+            </div>
+
+            <div class="producto-accion">
+                <button type="submit" id="agregarProd">Añadir producto</button>
+            </div>
+        </fieldset>
     </form>
 
     <h2>Zona de productos</h2>

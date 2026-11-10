@@ -9,11 +9,11 @@
     <title>Stock|PDA</title>
 </head>
 
+
+
 <body class="body">
 
-<h1> Sección de stock.</h1>
-
-
+    <h1> Sección de stock.</h1>
 
     <!-- Botón para abrir el sidebar -->
     <button class="openbtn" onclick="openNav()" aria-label="Expandir menú" hidden>
@@ -50,7 +50,7 @@
 
         <!-- Navegación principal -->
         <div class="direccion">
-            <a href="Home.html" aria-label="Inicio" >
+            <a href="Home.html" aria-label="Inicio">
                 <span class="sidebar-label">Inicio</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-house-fill" viewBox="0 0 16 16">
@@ -92,7 +92,7 @@
         </div>
 
         <div class="direccion">
-            <a href="stock.html" aria-label="Stock" class="SideActive" >
+            <a href="stock.html" aria-label="Stock" class="SideActive">
                 <span class="sidebar-label">Stock</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-boxes"
                     viewBox="0 0 16 16">
@@ -103,17 +103,114 @@
 
     </nav>
 
+    <form id="FormStock">
+        <fieldset>
+            <legend>Carga de materia prima</legend>
+
+            <div class="stock-campo">
+                <label for="NP">Nombre</label>
+                <input type="text" name="NombreProducto" id="NP" required>
+            </div>
+
+            <div class="stock-campo">
+                <label for="CP">Cantidad</label>
+                <input type="number" name="CantidadProducto" id="CP" min="0" step="any" required>
+            </div>
+
+            <div class="stock-campo">
+                <label for="FP">Fecha de ingreso</label>
+                <input type="date" name="FechaProducto" id="FP" required>
+            </div>
+
+            <div class="stock-accion">
+                <button type="submit" id="CM">Cargar materia</button>
+            </div>
+        </fieldset>
+    </form>
+
+    <div id="Materia">
+        <h2>Materia</h2>
+        <div id="cardM" class="materia-lista" aria-live="polite"></div>
+    </div>
 
 
-<footer class="footer">
-    <p class="p">© 2026 Panel de Admistracion. Todos los derechos reservados. La Doble U.</p>
-    <img src="LogoPDA.jpeg" class="img">
-</footer>
+    <footer class="footer">
+        <p class="p">© 2026 Panel de Admistracion. Todos los derechos reservados. La Doble U.</p>
+        <img src="LogoPDA.jpeg" class="img">
+    </footer>
 
     <script type="module" src="./utils/mostrarNombre.js"></script>
     <script type="module" src="./utils/localStorage.js"></script>
     <script src="./utils/sidebar.js"></script>
 
+    <script>
+        const formularioStock = document.getElementById("FormStock");
+        const listaMateria = document.getElementById("cardM");
+        const claveMaterias = "materiasStock";
+        let materias = JSON.parse(localStorage.getItem(claveMaterias) || "[]");
+
+        function guardarMaterias() {
+            localStorage.setItem(claveMaterias, JSON.stringify(materias));
+        }
+
+        function mostrarMaterias() {
+            listaMateria.replaceChildren();
+
+            materias.forEach((materia) => {
+                const tarjeta = document.createElement("article");
+                tarjeta.classList.add("materia-card");
+
+                const titulo = document.createElement("h3");
+                titulo.classList.add("materia-card-titulo");
+                titulo.textContent = materia.nombre;
+
+                const textoCantidad = document.createElement("p");
+                textoCantidad.textContent = `Cantidad: ${materia.cantidad}`;
+
+                const textoFecha = document.createElement("p");
+                textoFecha.textContent = `Fecha de ingreso: ${new Date(`${materia.fecha}T00:00:00`).toLocaleDateString("es-AR")}`;
+
+                const botonBorrar = document.createElement("button");
+                botonBorrar.type = "button";
+                botonBorrar.classList.add("btn-borrar-materia");
+                botonBorrar.textContent = "Borrar materia";
+                botonBorrar.setAttribute("aria-label", `Borrar ${materia.nombre}`);
+                botonBorrar.addEventListener("click", () => {
+                    materias = materias.filter((elemento) => elemento.id !== materia.id);
+                    guardarMaterias();
+                    mostrarMaterias();
+                });
+
+                tarjeta.append(titulo, textoCantidad, textoFecha, botonBorrar);
+                listaMateria.appendChild(tarjeta);
+            });
+        }
+
+        mostrarMaterias();
+
+        formularioStock.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            const nombre = document.getElementById("NP").value.trim();
+            const cantidad = document.getElementById("CP").value;
+            const fecha = document.getElementById("FP").value;
+
+            if (!nombre) {
+                alert("El nombre de la materia es obligatorio.");
+                return;
+            }
+
+            materias.push({
+                id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+                nombre,
+                cantidad,
+                fecha
+            });
+            guardarMaterias();
+            mostrarMaterias();
+            formularioStock.reset();
+        });
+    </script>
 
 </body>
 
