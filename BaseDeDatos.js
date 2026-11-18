@@ -86,6 +86,7 @@ const ejecutar = async (almacen, modo, crearSolicitud) => {
     });
 };
 
+// Usuarios
 const guardarUsuario = (usuario) => {
     return ejecutar("Usuarios", "readwrite", (store) => store.add(usuario));
 };
@@ -96,6 +97,69 @@ const obtenerUsuario = (id) => {
 
 const leerUsuarios = () => {
     return ejecutar("Usuarios", "readonly", (store) => store.getAll());
+};
+
+// Tareas
+const guardarTarea = (tarea) => {
+    return ejecutar("Tareas", "readwrite", (store) => store.add(tarea));
+};
+
+const obtenerTarea = (id) => {
+    return ejecutar("Tareas", "readonly", (store) => store.get(id));
+};
+
+const leerTareas = () => {
+    return ejecutar("Tareas", "readonly", (store) => store.getAll());
+};
+
+const actualizarTarea = (tarea) => {
+    return ejecutar("Tareas", "readwrite", (store) => store.put(tarea));
+};
+
+const borrarTarea = (id) => {
+    return ejecutar("Tareas", "readwrite", (store) => store.delete(id));
+};
+
+// Productos
+const guardarProducto = (producto) => {
+    return ejecutar("Productos", "readwrite", (store) => store.add(producto));
+};
+
+const obtenerProducto = (id) => {
+    return ejecutar("Productos", "readonly", (store) => store.get(id));
+};
+
+const leerProductos = () => {
+    return ejecutar("Productos", "readonly", (store) => store.getAll());
+};
+
+const actualizarProducto = (producto) => {
+    return ejecutar("Productos", "readwrite", (store) => store.put(producto));
+};
+
+const borrarProducto = (id) => {
+    return ejecutar("Productos", "readwrite", (store) => store.delete(id));
+};
+
+// Materias
+const guardarMateria = (materia) => {
+    return ejecutar("Materias", "readwrite", (store) => store.add(materia));
+};
+
+const obtenerMateria = (id) => {
+    return ejecutar("Materias", "readonly", (store) => store.get(id));
+};
+
+const leerMaterias = () => {
+    return ejecutar("Materias", "readonly", (store) => store.getAll());
+};
+
+const actualizarMateria = (materia) => {
+    return ejecutar("Materias", "readwrite", (store) => store.put(materia));
+};
+
+const borrarMateria = (id) => {
+    return ejecutar("Materias", "readwrite", (store) => store.delete(id));
 };
 
 const buscarUsuarioPorCorreo = async (correo) => {
@@ -140,6 +204,21 @@ window.BaseDeDatos = Object.freeze({
     buscarUsuarioPorCorreo,
     actualizarUsuario,
     borrarUsuario,
+    guardarTarea,
+    obtenerTarea,
+    leerTareas,
+    actualizarTarea,
+    borrarTarea,
+    guardarProducto,
+    obtenerProducto,
+    leerProductos,
+    actualizarProducto,
+    borrarProducto,
+    guardarMateria,
+    obtenerMateria,
+    leerMaterias,
+    actualizarMateria,
+    borrarMateria,
     guardarRegistro,
     leerRegistros,
     actualizarRegistro,

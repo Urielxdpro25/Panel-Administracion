@@ -202,35 +202,70 @@
     <br>
 
 
+    <script src="./BaseDeDatos.js"></script>
     <script src="./utils/sidebar.js"></script>
     <script>
         const boton = document.getElementById("agregar");
         const lista = document.getElementById("listado");
         const terminadas = document.getElementById("terminadas");
         const contenedor = document.querySelector(".contenedor");
-        let tareasTerminadas = [];
 
         boton.addEventListener("click", () => añadirTarea());
+        contenedor.addEventListener("click", borrarTarea);
 
-        const tareasAltaGuardadas = JSON.parse(localStorage.getItem("tareasPrioridadAlta") || "[]");
-        tareasAltaGuardadas.forEach((tarea) => añadirTarea(tarea, "alta"));
+        iniciarTareas();
 
-        function añadirTarea(texto = "", prioridad = "alta") {
+        async function iniciarTareas() {
+            try {
+                let tareas = await window.BaseDeDatos.leerTareas();
+
+                if (tareas.length === 0) {
+                    const tareasAntiguas = JSON.parse(
+                        localStorage.getItem("tareasPrioridadAlta") || "[]"
+                    );
+                    if (Array.isArray(tareasAntiguas)) {
+                        tareas = tareasAntiguas.map((texto) => ({
+                            texto,
+                            prioridad: "alta",
+                            completada: false,
+                        }));
+                    }
+                }
+
+                tareas.forEach((tarea) => añadirTarea(tarea));
+                guardarTareasAlta();
+            } catch (error) {
+                console.error("Error al cargar las tareas:", error);
+                alert("No se pudieron cargar las tareas guardadas.");
+            }
+        }
+
+        function añadirTarea(tarea = {}) {
+            if (typeof tarea === "string") {
+                tarea = { texto: tarea, prioridad: "alta", completada: false };
+            }
+
             const card = document.createElement("div");
             const borrar = document.createElement("button");
             const input = document.createElement("input");
             const check = document.createElement("input");
             const selection = document.createElement("select");
+            const cargar = document.createElement("button");
 
             input.type = "text";
             input.placeholder = "Escribe tu tarea";
             input.classList.add("input");
-            input.value = texto;
+            input.value = tarea.texto || "";
 
             check.type = "checkbox";
-            check.addEventListener("change", () => {
-                tareaTerminada(check);
+            check.checked = tarea.completada === true;
+            check.addEventListener("change", async () => {
+                (check.checked ? terminadas : lista).appendChild(card);
                 guardarTareasAlta();
+
+                if (card.dataset.taskId) {
+                    await guardarTareaDeTarjeta(card);
+                }
             });
 
             selection.classList.add("selection");
@@ -248,19 +283,71 @@
             option3.textContent = "Prioridad Baja";
 
             selection.append(option1, option2, option3);
-            selection.value = prioridad;
+            selection.value = tarea.prioridad || "alta";
             input.addEventListener("input", guardarTareasAlta);
             selection.addEventListener("change", guardarTareasAlta);
 
             card.classList.add("card");
+            if (tarea.id !== undefined) {
+                card.dataset.taskId = tarea.id;
+            }
+
+            cargar.type = "button";
+            cargar.classList.add("button-confirm");
+            cargar.textContent = tarea.id === undefined ? "Cargar Tarea" : "Guardar cambios";
+            cargar.addEventListener("click", () => guardarTareaDeTarjeta(card));
+
             borrar.classList.add("borrar");
             borrar.textContent = "Borrar";
 
             card.appendChild(input);
             card.appendChild(check);
             card.appendChild(selection);
+            card.appendChild(cargar);
             card.appendChild(borrar);
-            lista.appendChild(card);
+            (check.checked ? terminadas : lista).appendChild(card);
+        }
+
+        async function guardarTareaDeTarjeta(card) {
+            const input = card.querySelector(".input");
+            const check = card.querySelector('input[type="checkbox"]');
+            const selection = card.querySelector(".selection");
+            const botonGuardar = card.querySelector(".button-confirm");
+            const texto = input.value.trim();
+
+            if (!texto) {
+                alert("Escribe una tarea antes de guardarla.");
+                input.focus();
+                return;
+            }
+
+            const tarea = {
+                texto,
+                prioridad: selection.value,
+                completada: check.checked,
+            };
+
+            botonGuardar.disabled = true;
+            try {
+                if (card.dataset.taskId) {
+                    tarea.id = Number(card.dataset.taskId);
+                    await window.BaseDeDatos.actualizarTarea(tarea);
+                } else {
+                    const id = await window.BaseDeDatos.guardarTarea(tarea);
+                    card.dataset.taskId = id;
+                }
+
+                botonGuardar.textContent = "Guardado";
+                guardarTareasAlta();
+            } catch (error) {
+                console.error("Error al guardar la tarea:", error);
+                alert("No se pudo guardar la tarea.");
+            } finally {
+                botonGuardar.disabled = false;
+                botonGuardar.textContent = card.dataset.taskId
+                    ? "Guardar cambios"
+                    : "Cargar Tarea";
+            }
         }
 
         function guardarTareasAlta() {
@@ -276,30 +363,21 @@
             localStorage.setItem("tareasPrioridadAlta", JSON.stringify(tareasAlta));
         }
 
-
-        function tareaTerminada(check) {
-            if (check.checked) {
-                const card = check.parentElement;
-                const input = card.querySelector(".input");
-
-                tareasTerminadas.push(input.value);
-
-                terminadas.appendChild(card);
-
-                tareasTerminadas.forEach(function (tarea) {
-                    console.log(tarea);
-                });
-            }
-        }
-
-
-        contenedor.addEventListener("click", borrarTarea);
-
-        function borrarTarea(event) {
+        async function borrarTarea(event) {
             if (event.target.classList.contains("borrar")) {
                 const card = event.target.parentElement;
-                card.remove();
-                guardarTareasAlta();
+                const id = card.dataset.taskId;
+
+                try {
+                    if (id) {
+                        await window.BaseDeDatos.borrarTarea(Number(id));
+                    }
+                    card.remove();
+                    guardarTareasAlta();
+                } catch (error) {
+                    console.error("Error al borrar la tarea:", error);
+                    alert("No se pudo borrar la tarea.");
+                }
             }
         }
     </script>
