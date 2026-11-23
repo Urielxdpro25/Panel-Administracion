@@ -142,12 +142,13 @@
     <script type="module" src="./utils/mostrarNombre.js"></script>
     <script type="module" src="./utils/localStorage.js"></script>
     <script src="./utils/sidebar.js"></script>
+    <script src="./BaseDeDatos.js"></script>
 
     <script>
         const formularioStock = document.getElementById("FormStock");
         const listaMateria = document.getElementById("cardM");
         const claveMaterias = "materiasStock";
-        let materias = JSON.parse(localStorage.getItem(claveMaterias) || "[]");
+        let materias = [];
 
         function guardarMaterias() {
             localStorage.setItem(claveMaterias, JSON.stringify(materias));
@@ -175,10 +176,16 @@
                 botonBorrar.classList.add("btn-borrar-materia");
                 botonBorrar.textContent = "Borrar materia";
                 botonBorrar.setAttribute("aria-label", `Borrar ${materia.nombre}`);
-                botonBorrar.addEventListener("click", () => {
-                    materias = materias.filter((elemento) => elemento.id !== materia.id);
-                    guardarMaterias();
-                    mostrarMaterias();
+                botonBorrar.addEventListener("click", async () => {
+                    try {
+                        await window.BaseDeDatos.borrarMateria(materia.id);
+                        materias = materias.filter((elemento) => elemento.id !== materia.id);
+                        guardarMaterias();
+                        mostrarMaterias();
+                    } catch (error) {
+                        console.error("Error al borrar la materia:", error);
+                        alert("No se pudo borrar la materia.");
+                    }
                 });
 
                 tarjeta.append(titulo, textoCantidad, textoFecha, botonBorrar);
@@ -186,9 +193,35 @@
             });
         }
 
-        mostrarMaterias();
+        async function cargarMaterias() {
+            try {
+                materias = await window.BaseDeDatos.leerMaterias();
 
-        formularioStock.addEventListener("submit", (event) => {
+                if (materias.length === 0) {
+                    const materiasAntiguas = JSON.parse(localStorage.getItem(claveMaterias) || "[]");
+                    if (Array.isArray(materiasAntiguas)) {
+                        for (const materia of materiasAntiguas) {
+                            const id = await window.BaseDeDatos.guardarMateria({
+                                nombre: materia.nombre,
+                                cantidad: materia.cantidad,
+                                fecha: materia.fecha,
+                            });
+                            materias.push({ ...materia, id });
+                        }
+                    }
+                }
+
+                guardarMaterias();
+                mostrarMaterias();
+            } catch (error) {
+                console.error("Error al cargar las materias:", error);
+                alert("No se pudieron cargar las materias guardadas.");
+            }
+        }
+
+        cargarMaterias();
+
+        formularioStock.addEventListener("submit", async (event) => {
             event.preventDefault();
 
             const nombre = document.getElementById("NP").value.trim();
@@ -200,15 +233,22 @@
                 return;
             }
 
-            materias.push({
-                id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+            const materia = {
                 nombre,
                 cantidad,
                 fecha
-            });
-            guardarMaterias();
-            mostrarMaterias();
-            formularioStock.reset();
+            };
+
+            try {
+                const id = await window.BaseDeDatos.guardarMateria(materia);
+                materias.push({ ...materia, id });
+                guardarMaterias();
+                mostrarMaterias();
+                formularioStock.reset();
+            } catch (error) {
+                console.error("Error al guardar la materia:", error);
+                alert("No se pudo guardar la materia.");
+            }
         });
     </script>
 
