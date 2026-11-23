@@ -118,6 +118,7 @@
         background: #ffffff;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
         height: 100%;
+        width: 100%;
     }
 
     #fila .card:hover {
@@ -129,6 +130,20 @@
         height: 180px;
         object-fit: cover;
         width: 100%;
+    }
+
+    #fila .producto-sin-imagen {
+        height: 180px;
+        display: grid;
+        place-items: center;
+        background: #edf5ef;
+        color: #6b8175;
+    }
+
+    #fila .producto-sin-imagen svg {
+        width: 58px;
+        height: 58px;
+        opacity: 0.55;
     }
 
     #fila .card-body {
@@ -150,24 +165,55 @@
         color: #404040;
     }
 
+    #fila .precio-producto {
+        color: #0f5739;
+        font-size: 1.25rem;
+        font-weight: 800;
+    }
+
+    #fila .acciones-producto {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-top: auto;
+    }
+
+    #fila .acciones-producto button {
+        min-height: 42px;
+        border: 0;
+        border-radius: 8px;
+        color: #fff;
+        font-weight: 700;
+        transition: background-color .2s ease, transform .2s ease;
+    }
+
     #fila .btn-success {
         width: 100%;
-        margin-top: auto;
         background-color: crimson;
     }
 
-    #fila .btn-success :hover{
+    #fila .btn-success:hover {
         background-color: red;
     }
 
-    .CargarProd{
+    .CargarProd {
         background-color: darkcyan;
-        }
-        .CargarProd:hover{
-            background-color: cadetblue;
-        }
+    }
 
-        @media (max-width: 480px) {
+    .CargarProd:hover {
+        background-color: cadetblue;
+    }
+
+    #fila .acciones-producto button:active {
+        transform: translateY(1px);
+    }
+
+    #fila .acciones-producto button:focus-visible {
+        outline: 3px solid #45c9a4;
+        outline-offset: 2px;
+    }
+
+    @media (max-width: 480px) {
             .formularios {
                 padding: 8px;
             }
@@ -187,6 +233,10 @@
 
             .producto-accion #agregarProd {
                 width: 100%;
+            }
+
+            #fila .acciones-producto {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -268,7 +318,13 @@
                     <path
                         d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2zm3.564 1.426L5.596 5 8 5.961 14.154 3.5zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464z" />
                 </svg>
-            </a> </a>
+            </a>
+        </div>
+
+        <div class="direccion">
+            <a href="Catalogo.html" aria-label="Catálogo">
+                <span class="sidebar-label">Catálogo</span>
+            </a>
         </div>
 
         <div class="direccion">

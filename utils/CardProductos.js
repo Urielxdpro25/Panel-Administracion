@@ -5,6 +5,7 @@ const fila = document.getElementById("fila");
 const crearTarjeta = (producto) => {
     const columna = document.createElement("div");
     columna.classList.add("col-12", "col-sm-6", "col-lg-4", "mt-3");
+    columna.style.minWidth = "0";
 
     const card = document.createElement("div");
     card.classList.add("card", "h-100");
@@ -19,7 +20,15 @@ const crearTarjeta = (producto) => {
         imagen.src = urlImagen;
         imagen.alt = producto.nombre;
         imagen.classList.add("card-img-top");
+        imagen.loading = "lazy";
         card.appendChild(imagen);
+    } else {
+        const placeholder = document.createElement("div");
+        placeholder.className = "producto-sin-imagen";
+        placeholder.setAttribute("aria-label", "Producto sin imagen");
+        placeholder.innerHTML =
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5z"/><path d="m4 16 4.5-4.5 3.5 3.5 2.5-2.5 5.5 5"/><circle cx="15.5" cy="8.5" r="1.5"/></svg>';
+        card.appendChild(placeholder);
     }
 
     const cuerpo = document.createElement("div");
@@ -30,8 +39,11 @@ const crearTarjeta = (producto) => {
     titulo.textContent = producto.nombre;
 
     const textoPrecio = document.createElement("p");
-    textoPrecio.classList.add("card-text");
-    textoPrecio.textContent = `Precio: $${producto.precio}`;
+    textoPrecio.classList.add("card-text", "precio-producto");
+    const valor = Number(producto.precio);
+    textoPrecio.textContent = Number.isFinite(valor)
+        ? new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS" }).format(valor)
+        : `Precio: $${producto.precio}`;
 
     const textoDescripcion = document.createElement("p");
     textoDescripcion.classList.add("card-text");
@@ -46,6 +58,10 @@ const crearTarjeta = (producto) => {
     botonBorrar.type = "button";
     botonBorrar.classList.add("btn", "btn-success");
     botonBorrar.textContent = "Borrar";
+
+    const acciones = document.createElement("div");
+    acciones.className = "acciones-producto";
+    acciones.append(botonCargar, botonBorrar);
 
     botonCargar.addEventListener("click", async () => {
         await guardarProductoDesdeTarjeta(card);
@@ -66,7 +82,7 @@ const crearTarjeta = (producto) => {
         }
     });
 
-    cuerpo.append(titulo, textoPrecio, textoDescripcion, botonCargar, botonBorrar);
+    cuerpo.append(titulo, textoPrecio, textoDescripcion, acciones);
     card.appendChild(cuerpo);
     columna.appendChild(card);
     fila.appendChild(columna);
