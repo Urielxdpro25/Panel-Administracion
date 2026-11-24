@@ -178,7 +178,7 @@
 
     <div class="contenedor">
 
-        <button class="agregar" id="agregar">
+        <button class="agregar" id="agregar" type="button">
             Agregar Tarea
         </button>
 
@@ -210,7 +210,9 @@
         const terminadas = document.getElementById("terminadas");
         const contenedor = document.querySelector(".contenedor");
 
-        boton.addEventListener("click", () => añadirTarea());
+        boton.onclick = () => {
+            añadirTarea();
+        };
         contenedor.addEventListener("click", borrarTarea);
 
         iniciarTareas();
@@ -224,11 +226,29 @@
                         localStorage.getItem("tareasPrioridadAlta") || "[]"
                     );
                     if (Array.isArray(tareasAntiguas)) {
-                        tareas = tareasAntiguas.map((texto) => ({
-                            texto,
-                            prioridad: "alta",
-                            completada: false,
-                        }));
+                        const tareasMigradas = [];
+
+                        for (const texto of tareasAntiguas) {
+                            if (typeof texto !== "string" || !texto.trim()) {
+                                continue;
+                            }
+
+                            const id = await window.BaseDeDatos.guardarTarea({
+                                texto,
+                                prioridad: "alta",
+                                completada: false,
+                            });
+
+                            tareasMigradas.push({
+                                id,
+                                texto,
+                                prioridad: "alta",
+                                completada: false,
+                            });
+                        }
+
+                        tareas = tareasMigradas;
+                        localStorage.removeItem("tareasPrioridadAlta");
                     }
                 }
 
@@ -306,6 +326,7 @@
             card.appendChild(cargar);
             card.appendChild(borrar);
             (check.checked ? terminadas : lista).appendChild(card);
+            input.focus();
         }
 
         async function guardarTareaDeTarjeta(card) {

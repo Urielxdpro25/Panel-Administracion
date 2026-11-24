@@ -134,20 +134,51 @@
     <br>
 
 
+    <script src="./BaseDeDatos.js"></script>
     <script src="./utils/sidebar.js"></script>
     <script>
         let valorRecuperado = localStorage.getItem("nombreUsuario");
         document.getElementById("nombre").textContent = valorRecuperado;
 
-        const tareasAlta = JSON.parse(localStorage.getItem("tareasPrioridadAlta") || "[]");
         const listaTareasAlta = document.getElementById("lista-tareas-alta");
 
-        tareasAlta.forEach((tarea) => {
-            const elemento = document.createElement("li");
-            elemento.textContent = tarea;
-            listaTareasAlta.appendChild(elemento);
-        });
+        const mostrarTareasAlta = async () => {
+            listaTareasAlta.replaceChildren();
 
+            try {
+                await window.BaseDeDatos.abrirBD();
+                let tareas = await window.BaseDeDatos.leerTareas();
+
+                if (tareas.length === 0) {
+                    const tareasAntiguas = JSON.parse(
+                        localStorage.getItem("tareasPrioridadAlta") || "[]"
+                    );
+                    tareas = Array.isArray(tareasAntiguas)
+                        ? tareasAntiguas.map((texto) => ({
+                            texto,
+                            prioridad: "alta",
+                            completada: false,
+                        }))
+                        : [];
+                }
+
+                tareas
+                    .filter((tarea) =>
+                        tarea.texto &&
+                        tarea.prioridad === "alta" &&
+                        !tarea.completada
+                    )
+                    .forEach((tarea) => {
+                        const elemento = document.createElement("li");
+                        elemento.textContent = tarea.texto;
+                        listaTareasAlta.appendChild(elemento);
+                    });
+            } catch (error) {
+                console.error("Error al cargar las tareas:", error);
+            }
+        };
+
+        mostrarTareasAlta();
         const listaMaterias = document.getElementById("lista-materias");
         const mostrarNombresMaterias = () => {
             const materias = JSON.parse(localStorage.getItem("materiasStock") || "[]");
@@ -164,6 +195,9 @@
         window.addEventListener("storage", (event) => {
             if (event.key === "materiasStock") {
                 mostrarNombresMaterias();
+            }
+            if (event.key === "tareasPrioridadAlta") {
+                mostrarTareasAlta();
             }
         });
 
