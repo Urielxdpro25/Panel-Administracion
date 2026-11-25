@@ -14,13 +14,15 @@
     <!-- From Uiverse.io by ayyjayy2 -->
     <form class="form" method="post" id="formulario">
         <div class="title">Hola,<br><span>Inicia Seccion para avanzar</span></div>
-        <input class="input" name="nombre" placeholder="nombre" type="text" id="name" required>
+        <input class="input" name="nombre" placeholder="nombre" type="text" id="name">
         <input class="input" name="email" placeholder="Email" type="email" id="email" required>
         <input class="input" name="password" placeholder="Password" type="password" id="pass" required>
-        <button class="button-confirm">Entrar →</button>
+        <button class="button-confirm entrar">Entrar →</button>
+        <button class="button-confirm registrarse" id="registro">Registrarse →</button>
+
     </form>
 
-    
+
     <footer class="footer">
         <p class="p">© 2026 Panel de Admistracion. Todos los derechos reservados. La Doble U.</p>
         <img src="LogoPDA.jpeg" class="img">
@@ -28,6 +30,7 @@
 
 
 
+    <script src="BaseDeDatos.js"></script>
     <script src="main.js"></script>
 </body>
 

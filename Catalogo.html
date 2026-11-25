@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="LogoPDA.jpeg">
+    <title>Catálogo | PDA</title>
+</head>
+<style>
+    .catalogo-pagina {
+        box-sizing: border-box;
+        width: min(1200px, calc(100% - 32px));
+        max-width: 1200px;
+        margin: 0 auto 32px;
+    }
+
+    .catalogo-header {
+        box-sizing: border-box;
+        width: 100%;
+        margin-bottom: 20px;
+        padding: 24px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, #0f5739, #23845c);
+        color: #fff;
+        box-shadow: 0 12px 28px rgba(15, 87, 57, 0.16);
+    }
+
+    .catalogo-header h1 {
+        margin: 0 0 6px;
+        font-size: clamp(1.8rem, 4vw, 2.6rem);
+    }
+
+    .catalogo-header p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.82);
+    }
+
+    #catalogo {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+        gap: 20px;
+        align-items: stretch;
+    }
+
+    .productoCard {
+        display: flex;
+        min-width: 0;
+        min-height: 380px;
+        flex-direction: column;
+        overflow: hidden;
+        border: 1px solid rgba(15, 87, 57, 0.10);
+        border-radius: 18px;
+        background: #fff;
+        box-shadow: 0 10px 24px rgba(15, 87, 57, 0.12);
+        transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .productoCard:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 16px 34px rgba(15, 87, 57, 0.20);
+    }
+
+    .productoCard-imagen {
+        width: 100%;
+        height: 210px;
+        object-fit: cover;
+        background: #edf5ef;
+    }
+
+    .productoCard-sin-imagen {
+        display: grid;
+        place-items: center;
+        color: #6b8175;
+    }
+
+    .productoCard-sin-imagen svg {
+        width: 64px;
+        height: 64px;
+        opacity: 0.55;
+    }
+
+    .productoCard-cuerpo {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        gap: 10px;
+        padding: 18px;
+    }
+
+    .productoCard-nombre {
+        margin: 0;
+        color: #153b29;
+        font-size: 1.2rem;
+        line-height: 1.25;
+        overflow-wrap: anywhere;
+    }
+
+    .productoCard-descripcion {
+        display: -webkit-box;
+        margin: 0;
+        overflow: hidden;
+        color: #5f6f66;
+        line-height: 1.45;
+        -webkit-box-orient: vertical;
+    }
+
+    .productoCard-precio {
+        margin: auto 0 0;
+        color: #0f5739;
+        font-size: 1.35rem;
+        font-weight: 800;
+    }
+
+    .catalogo-vacio {
+        grid-column: 1 / -1;
+        padding: 48px 20px;
+        border: 2px dashed rgba(15, 87, 57, 0.25);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.65);
+        color: #4f6659;
+        text-align: center;
+    }
+
+    @media (max-width: 780px) {
+        .catalogo-pagina {
+            width: min(100% - 24px, 1200px);
+            margin: 0 auto 20px;
+        }
+
+        .catalogo-header {
+            padding: 20px;
+        }
+
+        #catalogo {
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+            gap: 14px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .catalogo-pagina {
+            width: calc(100% - 16px);
+            margin-inline: auto;
+        }
+
+        .catalogo-header {
+            border-radius: 14px;
+        }
+
+        #catalogo {
+            grid-template-columns: 1fr;
+        }
+
+        .productoCard {
+            min-height: 0;
+        }
+
+        .productoCard-imagen {
+            height: 230px;
+        }
+    }
+</style>
+<body class="body catalogo-body">
+    <button class="openbtn" onclick="openNav()" aria-label="Expandir menú" hidden>
+        ☰
+    </button>
+
+    <nav id="mySidebar" class="navbar">
+        <button class="closebtn" onclick="closeNav()" aria-label="Contraer menú" aria-expanded="true">
+            &laquo;
+        </button>
+
+        <label class="popup">
+            <input type="checkbox">
+            <div tabindex="0" class="burger">
+                <svg viewBox="0 0 24 24" fill="white" height="20" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 12c-4.4 0-8 2.2-8 5v2h16v-2c0-2.8-3.6-5-8-5z" />
+                </svg>
+            </div>
+            <nav class="popup-window">
+                <ul>
+                    <li><a href="index.html"><span>Cerrar sesión</span></a></li>
+                </ul>
+            </nav>
+        </label>
+
+        <div class="direccion">
+            <a href="Home.html" aria-label="Inicio">
+                <span class="sidebar-label">Inicio</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-house-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z" />
+                    <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z" />
+                </svg>
+            </a>
+        </div>
+        <div class="direccion">
+            <a href="Graficos.html" aria-label="Gráficos">
+                <span class="sidebar-label">Gráficos</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-bar-chart-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1z" />
+                </svg>
+            </a>
+        </div>
+        <div class="direccion">
+            <a href="Tareas.html" aria-label="Tareas">
+                <span class="sidebar-label">Tareas</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-clipboard-fill" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M10 1.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5zm-5 0A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5v1A1.5 1.5 0 0 1 9.5 4h-3A1.5 1.5 0 0 1 5 2.5zm-2 0h1v1A2.5 2.5 0 0 0 6.5 5h3A2.5 2.5 0 0 0 12 2.5v-1h1a2 2 0 0 1 2 2V14a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3.5a2 2 0 0 1 2-2" />
+                </svg>
+            </a>
+        </div>
+        <div class="direccion">
+            <a href="Productos.html" aria-label="Productos">
+                <span class="sidebar-label">Productos</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-box-seam" viewBox="0 0 16 16">
+                    <path
+                        d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2zm3.564 1.426L5.596 5 8 5.961 14.154 3.5zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464z" />
+                </svg>
+            </a>
+        </div>
+        <div class="direccion">
+            <a href="stock.html" aria-label="Stock">
+                <span class="sidebar-label">Stock</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-boxes"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434zM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567zM7.5 9.933l-2.75 1.571v3.134l2.75-1.571zm1 3.134 2.75 1.571v-3.134L8.5 9.933zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567zm2.242-2.433V3.504L8.5 5.076V8.21zM7.5 8.21V5.076L4.75 3.504v3.134zM5.258 2.643 8 4.21l2.742-1.567L8 1.076zM15 9.933l-2.75 1.571v3.134L15 13.067zM3.75 14.638v-3.134L1 9.933v3.134z" />
+                </svg>
+            </a>
+        </div>
+        <div class="direccion">
+            <a href="Catalogo.html" aria-label="Catálogo" class="SideActive">
+                <span class="sidebar-label">Catálogo</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                </svg>
+            </a>
+        </div>
+    </nav>
+
+    <main class="catalogo-pagina">
+        <header class="catalogo-header">
+            <h1>Catálogo de productos</h1>
+            <p>Descubre todos los productos disponibles.</p>
+        </header>
+
+        <section id="catalogo" aria-live="polite" aria-label="Productos disponibles">
+            <p class="catalogo-vacio">Cargando productos...</p>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p class="p">© 2026 Panel de Administración. Todos los derechos reservados. La Doble U.</p>
+        <img src="LogoPDA.jpeg" class="img" alt="Logo PDA">
+    </footer>
+
+    <script src="./utils/sidebar.js"></script>
+    <script src="./BaseDeDatos.js"></script>
+    <script>
+        const contenedorCatalogo = document.getElementById("catalogo");
+        const urlsDeImagen = [];
+
+        const crearImagenPlaceholder = () => {
+            const placeholder = document.createElement("div");
+            placeholder.className = "productoCard-imagen productoCard-sin-imagen";
+            placeholder.setAttribute("aria-label", "Producto sin imagen");
+            placeholder.innerHTML =
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5z"/><path d="m4 16 4.5-4.5 3.5 3.5 2.5-2.5 5.5 5"/><circle cx="15.5" cy="8.5" r="1.5"/></svg>';
+            return placeholder;
+        };
+
+        const crearProductoCard = (producto) => {
+            const card = document.createElement("article");
+            card.className = "productoCard";
+
+            if (producto.imagen instanceof Blob) {
+                const url = URL.createObjectURL(producto.imagen);
+                urlsDeImagen.push(url);
+
+                const imagen = document.createElement("img");
+                imagen.className = "productoCard-imagen";
+                imagen.src = url;
+                imagen.alt = producto.nombre || "Producto";
+                imagen.loading = "lazy";
+                card.appendChild(imagen);
+            } else {
+                card.appendChild(crearImagenPlaceholder());
+            }
+
+            const cuerpo = document.createElement("div");
+            cuerpo.className = "productoCard-cuerpo";
+
+            const nombre = document.createElement("h2");
+            nombre.className = "productoCard-nombre";
+            nombre.textContent = producto.nombre || "Producto sin nombre";
+
+            const descripcion = document.createElement("p");
+            descripcion.className = "productoCard-descripcion";
+            descripcion.textContent = producto.descripcion || "Sin descripción";
+
+            const precio = document.createElement("p");
+            precio.className = "productoCard-precio";
+            const valor = Number(producto.precio);
+            precio.textContent = Number.isFinite(valor)
+                ? new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS" }).format(valor)
+                : `$${producto.precio || "0"}`;
+
+            cuerpo.append(nombre, descripcion, precio);
+            card.appendChild(cuerpo);
+            return card;
+        };
+
+        const cargarCatalogo = async () => {
+            try {
+                await window.BaseDeDatos.abrirBD();
+                const productos = await window.BaseDeDatos.leerProductos();
+                contenedorCatalogo.replaceChildren();
+
+                if (!productos.length) {
+                    const vacio = document.createElement("p");
+                    vacio.className = "catalogo-vacio";
+                    vacio.textContent = "Todavía no hay productos cargados.";
+                    contenedorCatalogo.appendChild(vacio);
+                    return;
+                }
+
+                productos.forEach((producto) => {
+                    contenedorCatalogo.appendChild(crearProductoCard(producto));
+                });
+            } catch (error) {
+                console.error("Error al cargar el catálogo:", error);
+                const errorEstado = document.createElement("p");
+                errorEstado.className = "catalogo-vacio";
+                errorEstado.textContent = "No se pudieron cargar los productos.";
+                contenedorCatalogo.replaceChildren(errorEstado);
+            }
+        };
+
+        window.addEventListener("beforeunload", () => {
+            urlsDeImagen.forEach((url) => URL.revokeObjectURL(url));
+        });
+
+        cargarCatalogo();
+    </script>
+</body>
+</html>

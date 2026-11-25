@@ -15,7 +15,8 @@
             width: auto;
             height: auto;
             background-color: darkkhaki;
-            padding: 5px;
+            padding: 10px;
+            border-radius: 10px;
         }
 
         .agregar {
@@ -82,60 +83,114 @@
 <body class="body">
 
     <h1>To do List</h1>
-    <p>Bienvenido/a, <span id="nombre"></span> , esta es la seccion de tareas.</p>
+    <p>
+        Esta es la seccion de tareas.</p>
 
-    <nav class="navbar">
 
-        <!-- From Uiverse.io by devkatyall -->
+    <!-- Botón para abrir el sidebar -->
+    <button class="openbtn" onclick="openNav()" aria-label="Expandir menú" hidden>
+        ☰
+    </button>
+
+    <!-- Sidebar -->
+    <nav id="mySidebar" class="navbar">
+
+        <button class="closebtn" onclick="closeNav()" aria-label="Contraer menú" aria-expanded="true">
+            &laquo;
+        </button>
+
+        <!-- Menú de usuario -->
         <label class="popup">
-            <input type="checkbox" />
+            <input type="checkbox">
+
             <div tabindex="0" class="burger">
                 <svg viewBox="0 0 24 24" fill="white" height="20" width="20" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M12 2c2.757 0 5 2.243 5 5.001 0 2.756-2.243 5-5 5s-5-2.244-5-5c0-2.758 2.243-5.001 5-5.001zm0-2c-3.866 0-7 3.134-7 7.001 0 3.865 3.134 7 7 7s7-3.135 7-7c0-3.867-3.134-7.001-7-7.001zm6.369 13.353c-.497.498-1.057.931-1.658 1.302 2.872 1.874 4.378 5.083 4.972 7.346h-19.387c.572-2.29 2.058-5.503 4.973-7.358-.603-.374-1.162-.811-1.658-1.312-4.258 3.072-5.611 8.506-5.611 10.669h24c0-2.142-1.44-7.557-5.631-10.647z">
-                    </path>
+                    <path d="M12 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 12c-4.4 0-8 2.2-8 5v2h16v-2c0-2.8-3.6-5-8-5z" />
                 </svg>
             </div>
+
             <nav class="popup-window">
                 <ul>
                     <li>
                         <a href="index.html">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="1.2" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M19 4v6.406l-3.753 3.741-6.463-6.462 3.7-3.685h6.516zm2-2h-12.388l1.497 1.5-4.171 4.167 9.291 9.291 4.161-4.193 1.61 1.623v-12.388zm-5 4c.552 0 1 .449 1 1s-.448 1-1 1-1-.449-1-1 .448-1 1-1zm0-1c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zm6.708.292l-.708.708v3.097l2-2.065-1.292-1.74zm-12.675 9.294l-1.414 1.414h-2.619v2h-2v2h-2v-2.17l5.636-5.626-1.417-1.407-6.219 6.203v5h6v-2h2v-2h2l1.729-1.729-1.696-1.685z">
-                                </path>
-                            </svg>
-                            <span>Cerrar Seccion</span>
+                            <span>Cerrar sesión</span>
                         </a>
                     </li>
                 </ul>
             </nav>
         </label>
 
-
-
+        <!-- Navegación principal -->
         <div class="direccion">
-             <a href="Home.html">Inicio</a>
+            <a href="Home.html" aria-label="Inicio">
+                <span class="sidebar-label">Inicio</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-house-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z" />
+                    <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z" />
+                </svg> </a>
         </div>
 
         <div class="direccion">
-            <a href="Graficos.html">Graficos</a>
+            <a href="Graficos.html" aria-label="Gráficos">
+                <span class="sidebar-label">Gráficos</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-bar-chart-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1z" />
+                </svg> </a>
         </div>
 
         <div class="direccion">
-            <a href="Tareas.html" class="SideActive">Tareas</a>
+            <a href="Tareas.html" aria-label="Tareas" class="SideActive">
+                <span class="sidebar-label">Tareas</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-clipboard-fill" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M10 1.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5zm-5 0A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5v1A1.5 1.5 0 0 1 9.5 4h-3A1.5 1.5 0 0 1 5 2.5zm-2 0h1v1A2.5 2.5 0 0 0 6.5 5h3A2.5 2.5 0 0 0 12 2.5v-1h1a2 2 0 0 1 2 2V14a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3.5a2 2 0 0 1 2-2" />
+                </svg> </a>
         </div>
 
         <div class="direccion">
-            <a href="Productos.html">Productos</a>
+            <a href="Productos.html" aria-label="Productos">
+                <span class="sidebar-label">Productos</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-box-seam" viewBox="0 0 16 16">
+                    <path
+                        d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2zm3.564 1.426L5.596 5 8 5.961 14.154 3.5zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464z" />
+                </svg>
+            </a> </a>
+        </div>
+
+        <div class="direccion">
+            <a href="Catalogo.html" aria-label="Catálogo">
+                <span class="sidebar-label">Catálogo</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                </svg>
+            </a>
+        </div>
+
+        <div class="direccion">
+            <a href="stock.html" aria-label="Stock">
+                <span class="sidebar-label">Stock</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-boxes"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434zM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567zM7.5 9.933l-2.75 1.571v3.134l2.75-1.571zm1 3.134 2.75 1.571v-3.134L8.5 9.933zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567zm2.242-2.433V3.504L8.5 5.076V8.21zM7.5 8.21V5.076L4.75 3.504v3.134zM5.258 2.643 8 4.21l2.742-1.567L8 1.076zM15 9.933l-2.75 1.571v3.134L15 13.067zM3.75 14.638v-3.134L1 9.933v3.134z" />
+                </svg>
+            </a>
         </div>
 
     </nav>
 
+
     <div class="contenedor">
 
-        <button class="agregar" id="agregar">
+        <button class="agregar" id="agregar" type="button">
             Agregar Tarea
         </button>
 
@@ -148,41 +203,9 @@
 
 
 
-    <nav aria-label="Paginación de la página">
 
-        <ul class="pagination">
-            <li><a href="Home.html"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                        fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
-                        <path
-                            d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z" />
-                        <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z" />
-                    </svg></a>
-            </li>
 
-            <li><a href="Graficos.html"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                        fill="currentColor" class="bi bi-bar-chart-fill" viewBox="0 0 16 16">
-                        <path
-                            d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1z" />
-                    </svg></a>
-            </li>
-            <li><a href="Tareas.html" class="active"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-clipboard-fill" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M10 1.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5zm-5 0A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5v1A1.5 1.5 0 0 1 9.5 4h-3A1.5 1.5 0 0 1 5 2.5zm-2 0h1v1A2.5 2.5 0 0 0 6.5 5h3A2.5 2.5 0 0 0 12 2.5v-1h1a2 2 0 0 1 2 2V14a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3.5a2 2 0 0 1 2-2" />
-                    </svg></a>
-            </li>
-            <li><a href="Productos.html"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                        fill="currentColor" class="bi bi-box-seam" viewBox="0 0 16 16">
-                        <path
-                            d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2zm3.564 1.426L5.596 5 8 5.961 14.154 3.5zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464z" />
-                    </svg></a>
-            </li>
-        </ul>
 
-    </nav>
-
-    
-   
     <footer class="footer">
         <p class="p">© 2026 Panel de Admistracion. Todos los derechos reservados. La Doble U.</p>
         <img src="LogoPDA.jpeg" class="img">
@@ -191,61 +214,203 @@
     <br>
 
 
+    <script src="./BaseDeDatos.js"></script>
+    <script src="./utils/sidebar.js"></script>
     <script>
         const boton = document.getElementById("agregar");
         const lista = document.getElementById("listado");
         const terminadas = document.getElementById("terminadas");
         const contenedor = document.querySelector(".contenedor");
-        let tareasTerminadas = [];
 
-        boton.addEventListener("click", añadirTarea);
+        boton.onclick = () => {
+            añadirTarea();
+        };
+        contenedor.addEventListener("click", manejarBorradoDeTarea);
 
-        function añadirTarea() {
+        iniciarTareas();
+
+        async function iniciarTareas() {
+            try {
+                let tareas = await window.BaseDeDatos.leerTareas();
+
+                if (tareas.length === 0) {
+                    const tareasAntiguas = JSON.parse(
+                        localStorage.getItem("tareasPrioridadAlta") || "[]"
+                    );
+                    if (Array.isArray(tareasAntiguas)) {
+                        const tareasMigradas = [];
+
+                        for (const texto of tareasAntiguas) {
+                            if (typeof texto !== "string" || !texto.trim()) {
+                                continue;
+                            }
+
+                            const id = await window.BaseDeDatos.guardarTarea({
+                                texto,
+                                prioridad: "alta",
+                                completada: false,
+                            });
+
+                            tareasMigradas.push({
+                                id,
+                                texto,
+                                prioridad: "alta",
+                                completada: false,
+                            });
+                        }
+
+                        tareas = tareasMigradas;
+                        localStorage.removeItem("tareasPrioridadAlta");
+                    }
+                }
+
+                tareas.forEach((tarea) => añadirTarea(tarea));
+                guardarTareasAlta();
+            } catch (error) {
+                console.error("Error al cargar las tareas:", error);
+                alert("No se pudieron cargar las tareas guardadas.");
+            }
+        }
+
+        function añadirTarea(tarea = {}) {
+            if (typeof tarea === "string") {
+                tarea = { texto: tarea, prioridad: "alta", completada: false };
+            }
+
             const card = document.createElement("div");
             const borrar = document.createElement("button");
             const input = document.createElement("input");
             const check = document.createElement("input");
+            const selection = document.createElement("select");
+            const cargar = document.createElement("button");
 
             input.type = "text";
             input.placeholder = "Escribe tu tarea";
             input.classList.add("input");
+            input.value = tarea.texto || "";
 
             check.type = "checkbox";
-            check.addEventListener("change", () => tareaTerminada(check));
+            check.checked = tarea.completada === true;
+            check.addEventListener("change", async () => {
+                (check.checked ? terminadas : lista).appendChild(card);
+                guardarTareasAlta();
+
+                if (card.dataset.taskId) {
+                    await guardarTareaDeTarjeta(card);
+                }
+            });
+
+            selection.classList.add("selection");
+
+            const option1 = document.createElement("option");
+            option1.value = "alta";
+            option1.textContent = "Prioridad Alta";
+
+            const option2 = document.createElement("option");
+            option2.value = "media";
+            option2.textContent = "Prioridad Media";
+
+            const option3 = document.createElement("option");
+            option3.value = "baja";
+            option3.textContent = "Prioridad Baja";
+
+            selection.append(option1, option2, option3);
+            selection.value = tarea.prioridad || "alta";
+            input.addEventListener("input", guardarTareasAlta);
+            selection.addEventListener("change", guardarTareasAlta);
 
             card.classList.add("card");
+            if (tarea.id !== undefined) {
+                card.dataset.taskId = tarea.id;
+            }
+
+            cargar.type = "button";
+            cargar.classList.add("button-confirm");
+            cargar.textContent = tarea.id === undefined ? "Cargar Tarea" : "Guardar cambios";
+            cargar.addEventListener("click", () => guardarTareaDeTarjeta(card));
+
             borrar.classList.add("borrar");
             borrar.textContent = "Borrar";
 
             card.appendChild(input);
             card.appendChild(check);
+            card.appendChild(selection);
+            card.appendChild(cargar);
             card.appendChild(borrar);
-            lista.appendChild(card);
+            (check.checked ? terminadas : lista).appendChild(card);
+            input.focus();
         }
 
+        async function guardarTareaDeTarjeta(card) {
+            const input = card.querySelector(".input");
+            const check = card.querySelector('input[type="checkbox"]');
+            const selection = card.querySelector(".selection");
+            const botonGuardar = card.querySelector(".button-confirm");
+            const texto = input.value.trim();
 
-        function tareaTerminada(check) {
-            if (check.checked) {
-                const card = check.parentElement;
-                const input = card.querySelector(".input");
+            if (!texto) {
+                alert("Escribe una tarea antes de guardarla.");
+                input.focus();
+                return;
+            }
 
-                tareasTerminadas.push(input.value);
+            const tarea = {
+                texto,
+                prioridad: selection.value,
+                completada: check.checked,
+            };
 
-                terminadas.appendChild(card);
+            botonGuardar.disabled = true;
+            try {
+                if (card.dataset.taskId) {
+                    tarea.id = Number(card.dataset.taskId);
+                    await window.BaseDeDatos.actualizarTarea(tarea);
+                } else {
+                    const id = await window.BaseDeDatos.guardarTarea(tarea);
+                    card.dataset.taskId = id;
+                }
 
-                tareasTerminadas.forEach(function (tarea) {
-                    console.log(tarea);
-                });
+                botonGuardar.textContent = "Guardado";
+                guardarTareasAlta();
+            } catch (error) {
+                console.error("Error al guardar la tarea:", error);
+                alert("No se pudo guardar la tarea.");
+            } finally {
+                botonGuardar.disabled = false;
+                botonGuardar.textContent = card.dataset.taskId
+                    ? "Guardar cambios"
+                    : "Cargar Tarea";
             }
         }
 
+        function guardarTareasAlta() {
+            const tareasAlta = Array.from(contenedor.querySelectorAll(".card"))
+                .map((card) => ({
+                    texto: card.querySelector(".input").value.trim(),
+                    prioridad: card.querySelector(".selection").value,
+                    check: card.querySelector('input[type="checkbox"]').checked
+                }))
+                .filter((tarea) => tarea.texto && tarea.prioridad === "alta" && !tarea.check)
+                .map((tarea) => tarea.texto);
 
-        contenedor.addEventListener("click", borrarTarea);
+            localStorage.setItem("tareasPrioridadAlta", JSON.stringify(tareasAlta));
+        }
 
-        function borrarTarea(event) {
+        async function manejarBorradoDeTarea(event) {
             if (event.target.classList.contains("borrar")) {
                 const card = event.target.parentElement;
-                card.remove();
+                const id = card.dataset.taskId;
+
+                try {
+                    if (id) {
+                        await window.BaseDeDatos.borrarTarea(Number(id));
+                    }
+                    card.remove();
+                    guardarTareasAlta();
+                } catch (error) {
+                    console.error("Error al borrar la tarea:", error);
+                    alert("No se pudo borrar la tarea.");
+                }
             }
         }
     </script>
