@@ -49,11 +49,6 @@ const crearTarjeta = (producto) => {
     textoDescripcion.classList.add("card-text");
     textoDescripcion.textContent = producto.descripcion;
 
-    const botonCargar = document.createElement("button");
-    botonCargar.textContent = producto.id === undefined ? "Cargar Producto" : "Guardar cambios";
-    botonCargar.type = "button";
-    botonCargar.classList.add("CargarProd");
-
     const botonBorrar = document.createElement("button");
     botonBorrar.type = "button";
     botonBorrar.classList.add("btn", "btn-success");
@@ -61,11 +56,7 @@ const crearTarjeta = (producto) => {
 
     const acciones = document.createElement("div");
     acciones.className = "acciones-producto";
-    acciones.append(botonCargar, botonBorrar);
-
-    botonCargar.addEventListener("click", async () => {
-        await guardarProductoDesdeTarjeta(card);
-    });
+    acciones.appendChild(botonBorrar);
 
     botonBorrar.addEventListener("click", async () => {
         try {
@@ -86,47 +77,6 @@ const crearTarjeta = (producto) => {
     card.appendChild(cuerpo);
     columna.appendChild(card);
     fila.appendChild(columna);
-};
-
-const guardarProductoDesdeTarjeta = async (card) => {
-    const nombre = document.getElementById("nombreProd").value.trim();
-    const precio = document.getElementById("precioProd").value;
-    const descripcion = document.getElementById("descProd").value.trim();
-    const archivoImagen = document.getElementById("ImgProd").files[0];
-
-    if (!nombre || !precio || !descripcion) {
-        alert("Uno o más campos incompletos");
-        return;
-    }
-
-    const producto = { nombre, precio, descripcion };
-    if (archivoImagen) {
-        producto.imagen = archivoImagen;
-    } else if (card.dataset.productId) {
-        const existente = await window.BaseDeDatos.obtenerProducto(Number(card.dataset.productId));
-        if (existente?.imagen) {
-            producto.imagen = existente.imagen;
-        }
-    }
-
-    try {
-        if (card.dataset.productId) {
-            producto.id = Number(card.dataset.productId);
-            await window.BaseDeDatos.actualizarProducto(producto);
-        } else {
-            const id = await window.BaseDeDatos.guardarProducto(producto);
-            card.dataset.productId = id;
-        }
-
-        const boton = card.querySelector(".CargarProd");
-        boton.textContent = "Guardado";
-        setTimeout(() => {
-            boton.textContent = card.dataset.productId ? "Guardar cambios" : "Cargar Producto";
-        }, 1000);
-    } catch (error) {
-        console.error("Error al guardar el producto:", error);
-        alert("No se pudo guardar el producto.");
-    }
 };
 
 const cargarProductos = async () => {

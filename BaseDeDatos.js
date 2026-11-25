@@ -1,167 +1,289 @@
 let DB = null;
-let aperturaBD = null;
 
 const abrirBD = () => {
-    if (typeof indexedDB === "undefined") {
-        return Promise.reject(new Error("Este navegador no admite IndexedDB."));
-    }
-
-    if (DB) {
-        return Promise.resolve(DB);
-    }
-
-    if (aperturaBD) {
-        return aperturaBD;
-    }
-
-    aperturaBD = new Promise((resolve, reject) => {
-        const req = indexedDB.open("PDA", 2);
-
-        req.onupgradeneeded = () => {
-            const db = req.result;
-            const almacenes = ["Usuarios", "Productos", "Materias", "Tareas"];
-
-            almacenes.forEach((nombre) => {
-                if (!db.objectStoreNames.contains(nombre)) {
-                    db.createObjectStore(nombre, {
-                        keyPath: "id",
-                        autoIncrement: true,
-                    });
-                }
-            });
-        };
-        req.onsuccess = () => {
-            DB = req.result;
-            DB.onversionchange = () => {
-                DB.close();
-                DB = null;
-                aperturaBD = null;
-            };
-            resolve(DB);
-        };
-
-        req.onerror = () => {
-            aperturaBD = null;
-            reject(req.error);
-        };
-
-        req.onblocked = () => {
-            aperturaBD = null;
-            reject(new Error("La base de datos está bloqueada por otra pestaña."));
-        };
-    });
-
-    return aperturaBD;
-};
-
-const ejecutar = async (almacen, modo, crearSolicitud) => {
-    const db = DB || (await abrirBD());
 
     return new Promise((resolve, reject) => {
-        const tx = db.transaction(almacen, modo);
-        const store = tx.objectStore(almacen);
-        let resultado;
-        let errorInformado = false;
 
-        tx.oncomplete = () => resolve(resultado);
-        tx.onerror = () => {
-            errorInformado = true;
-            reject(tx.error || new Error("Error en la transacción de IndexedDB."));
-        };
-        tx.onabort = () => {
-            if (!errorInformado) {
-                reject(tx.error || new Error("La transacción de IndexedDB fue cancelada."));
+        const solicitud = indexedDB.open("PDA", 2);
+
+        solicitud.onupgradeneeded = () => {
+
+            const db = solicitud.result;
+
+            if (!db.objectStoreNames.contains("Productos")) {
+                db.createObjectStore("Productos", {
+                    keyPath: "id",
+                    autoIncrement: true
+                });
+            }
+
+            if (!db.objectStoreNames.contains("Usuarios")) {
+                db.createObjectStore("Usuarios", {
+                    keyPath: "id",
+                    autoIncrement: true
+                });
+            }
+
+            if (!db.objectStoreNames.contains("Tareas")) {
+                db.createObjectStore("Tareas", {
+                    keyPath: "id",
+                    autoIncrement: true
+                });
+            }
+
+            if (!db.objectStoreNames.contains("Materias")) {
+                db.createObjectStore("Materias", {
+                    keyPath: "id",
+                    autoIncrement: true
+                });
             }
         };
 
-        try {
-            const req = crearSolicitud(store);
-            req.onsuccess = () => {
-                resultado = req.result;
-            };
-        } catch (error) {
-            tx.abort();
-            reject(error);
-        }
+        solicitud.onsuccess = () => {
+            DB = solicitud.result;
+            resolve(DB);
+        };
+
+        solicitud.onerror = () => {
+            reject(solicitud.error);
+        };
     });
 };
 
-// Usuarios
-const guardarUsuario = (usuario) => {
-    return ejecutar("Usuarios", "readwrite", (store) => store.add(usuario));
+
+// Guardar producto
+const guardarProducto = async (producto) => {
+
+    const db = DB || await abrirBD();
+
+    return new Promise((resolve, reject) => {
+
+        const transaccion = db.transaction("Productos", "readwrite");
+        const almacen = transaccion.objectStore("Productos");
+
+        const solicitud = almacen.add(producto);
+
+        solicitud.onsuccess = () => {
+            resolve(solicitud.result);
+        };
+
+        solicitud.onerror = () => {
+            reject(solicitud.error);
+        };
+    });
 };
 
-const obtenerUsuario = (id) => {
-    return ejecutar("Usuarios", "readonly", (store) => store.get(id));
+
+// Obtener todos los productos
+const leerProductos = async () => {
+
+    const db = DB || await abrirBD();
+
+    return new Promise((resolve, reject) => {
+
+        const transaccion = db.transaction("Productos", "readonly");
+        const almacen = transaccion.objectStore("Productos");
+
+        const solicitud = almacen.getAll();
+
+        solicitud.onsuccess = () => {
+            resolve(solicitud.result);
+        };
+
+        solicitud.onerror = () => {
+            reject(solicitud.error);
+        };
+    });
 };
 
-const leerUsuarios = () => {
-    return ejecutar("Usuarios", "readonly", (store) => store.getAll());
+
+// Obtener un producto por ID
+const obtenerProducto = async (id) => {
+
+    const db = DB || await abrirBD();
+
+    return new Promise((resolve, reject) => {
+
+        const transaccion = db.transaction("Productos", "readonly");
+        const almacen = transaccion.objectStore("Productos");
+
+        const solicitud = almacen.get(id);
+
+        solicitud.onsuccess = () => {
+            resolve(solicitud.result);
+        };
+
+        solicitud.onerror = () => {
+            reject(solicitud.error);
+        };
+    });
 };
 
-// Tareas
-const guardarTarea = (tarea) => {
-    return ejecutar("Tareas", "readwrite", (store) => store.add(tarea));
+
+// Actualizar producto
+const actualizarProducto = async (producto) => {
+
+    const db = DB || await abrirBD();
+
+    return new Promise((resolve, reject) => {
+
+        const transaccion = db.transaction("Productos", "readwrite");
+        const almacen = transaccion.objectStore("Productos");
+
+        const solicitud = almacen.put(producto);
+
+        solicitud.onsuccess = () => {
+            resolve(solicitud.result);
+        };
+
+        solicitud.onerror = () => {
+            reject(solicitud.error);
+        };
+    });
 };
 
-const obtenerTarea = (id) => {
-    return ejecutar("Tareas", "readonly", (store) => store.get(id));
+
+// Eliminar producto
+const borrarProducto = async (id) => {
+
+    const db = DB || await abrirBD();
+
+    return new Promise((resolve, reject) => {
+
+        const transaccion = db.transaction("Productos", "readwrite");
+        const almacen = transaccion.objectStore("Productos");
+
+        const solicitud = almacen.delete(id);
+
+        solicitud.onsuccess = () => {
+            resolve();
+        };
+
+        solicitud.onerror = () => {
+            reject(solicitud.error);
+        };
+    });
 };
 
-const leerTareas = () => {
-    return ejecutar("Tareas", "readonly", (store) => store.getAll());
+// USuarios
+
+
+// Guardar producto
+const guardarUsuario = async (usuario) => {
+
+    const db = DB || await abrirBD();
+
+    return new Promise((resolve, reject) => {
+
+        const transaccion = db.transaction("Usuarios", "readwrite");
+        const almacen = transaccion.objectStore("Usuarios");
+
+        const solicitud = almacen.add(usuario);
+
+        solicitud.onsuccess = () => {
+            resolve(solicitud.result);
+        };
+
+        solicitud.onerror = () => {
+            reject(solicitud.error);
+        };
+    });
 };
 
-const actualizarTarea = (tarea) => {
-    return ejecutar("Tareas", "readwrite", (store) => store.put(tarea));
+
+// Obtener todos los usuarios
+const leerUsuarios = async () => {
+
+    const db = DB || await abrirBD();
+
+    return new Promise((resolve, reject) => {
+
+        const transaccion = db.transaction("Usuarios", "readonly");
+        const almacen = transaccion.objectStore("Usuarios");
+
+        const solicitud = almacen.getAll();
+
+        solicitud.onsuccess = () => {
+            resolve(solicitud.result);
+        };
+
+        solicitud.onerror = () => {
+            reject(solicitud.error);
+        };
+    });
 };
 
-const borrarTarea = (id) => {
-    return ejecutar("Tareas", "readwrite", (store) => store.delete(id));
+
+// Obtener un usuario por ID
+const obtenerUsuario = async (id) => {
+
+    const db = DB || await abrirBD();
+
+    return new Promise((resolve, reject) => {
+
+        const transaccion = db.transaction("Usuarios", "readonly");
+        const almacen = transaccion.objectStore("Usuarios");
+
+        const solicitud = almacen.get(id);
+
+        solicitud.onsuccess = () => {
+            resolve(solicitud.result);
+        };
+
+        solicitud.onerror = () => {
+            reject(solicitud.error);
+        };
+    });
 };
 
-// Productos
-const guardarProducto = (producto) => {
-    return ejecutar("Productos", "readwrite", (store) => store.add(producto));
+
+// Actualizar usuario
+const actualizarUsuario = async (usuario) => {
+
+    const db = DB || await abrirBD();
+
+    return new Promise((resolve, reject) => {
+
+        const transaccion = db.transaction("Usuarios", "readwrite");
+        const almacen = transaccion.objectStore("Usuarios");
+
+        const solicitud = almacen.put(usuario);
+
+        solicitud.onsuccess = () => {
+            resolve(solicitud.result);
+        };
+
+        solicitud.onerror = () => {
+            reject(solicitud.error);
+        };
+    });
 };
 
-const obtenerProducto = (id) => {
-    return ejecutar("Productos", "readonly", (store) => store.get(id));
+
+// Eliminar usuario
+const borrarUsuario = async (id) => {
+
+    const db = DB || await abrirBD();
+
+    return new Promise((resolve, reject) => {
+
+        const transaccion = db.transaction("Usuarios", "readwrite");
+        const almacen = transaccion.objectStore("Usuarios");
+
+        const solicitud = almacen.delete(id);
+
+        solicitud.onsuccess = () => {
+            resolve();
+        };
+
+        solicitud.onerror = () => {
+            reject(solicitud.error);
+        };
+    });
 };
 
-const leerProductos = () => {
-    return ejecutar("Productos", "readonly", (store) => store.getAll());
-};
 
-const actualizarProducto = (producto) => {
-    return ejecutar("Productos", "readwrite", (store) => store.put(producto));
-};
-
-const borrarProducto = (id) => {
-    return ejecutar("Productos", "readwrite", (store) => store.delete(id));
-};
-
-// Materias
-const guardarMateria = (materia) => {
-    return ejecutar("Materias", "readwrite", (store) => store.add(materia));
-};
-
-const obtenerMateria = (id) => {
-    return ejecutar("Materias", "readonly", (store) => store.get(id));
-};
-
-const leerMaterias = () => {
-    return ejecutar("Materias", "readonly", (store) => store.getAll());
-};
-
-const actualizarMateria = (materia) => {
-    return ejecutar("Materias", "readwrite", (store) => store.put(materia));
-};
-
-const borrarMateria = (id) => {
-    return ejecutar("Materias", "readwrite", (store) => store.delete(id));
-};
-
+// Buscar usuario por correo
 const buscarUsuarioPorCorreo = async (correo) => {
     const correoNormalizado = correo.trim().toLowerCase();
     const usuarios = await leerUsuarios();
@@ -172,56 +294,258 @@ const buscarUsuarioPorCorreo = async (correo) => {
     );
 };
 
-const actualizarUsuario = (usuario) => {
-    return ejecutar("Usuarios", "readwrite", (store) => store.put(usuario));
+
+// Guardar tarea
+const guardarTarea = async (tarea) => {
+
+    const db = DB || await abrirBD();
+
+    return new Promise((resolve, reject) => {
+
+        const transaccion = db.transaction("Tareas", "readwrite");
+        const almacen = transaccion.objectStore("Tareas");
+
+        const solicitud = almacen.add(tarea);
+
+        solicitud.onsuccess = () => {
+            resolve(solicitud.result);
+        };
+
+        solicitud.onerror = () => {
+            reject(solicitud.error);
+        };
+    });
 };
 
-const borrarUsuario = (id) => {
-    return ejecutar("Usuarios", "readwrite", (store) => store.delete(id));
+
+// Obtener todas las tareas
+const leerTareas = async () => {
+
+    const db = DB || await abrirBD();
+
+    return new Promise((resolve, reject) => {
+
+        const transaccion = db.transaction("Tareas", "readonly");
+        const almacen = transaccion.objectStore("Tareas");
+
+        const solicitud = almacen.getAll();
+
+        solicitud.onsuccess = () => {
+            resolve(solicitud.result);
+        };
+
+        solicitud.onerror = () => {
+            reject(solicitud.error);
+        };
+    });
 };
 
-const guardarRegistro = (almacen, registro) => {
-    return ejecutar(almacen, "readwrite", (store) => store.add(registro));
+
+// Obtener una tarea por ID
+const obtenerTarea = async (id) => {
+
+    const db = DB || await abrirBD();
+
+    return new Promise((resolve, reject) => {
+
+        const transaccion = db.transaction("Tareas", "readonly");
+        const almacen = transaccion.objectStore("Tareas");
+
+        const solicitud = almacen.get(id);
+
+        solicitud.onsuccess = () => {
+            resolve(solicitud.result);
+        };
+
+        solicitud.onerror = () => {
+            reject(solicitud.error);
+        };
+    });
 };
 
-const leerRegistros = (almacen) => {
-    return ejecutar(almacen, "readonly", (store) => store.getAll());
+
+// Actualizar tarea
+const actualizarTarea = async (tarea) => {
+
+    const db = DB || await abrirBD();
+
+    return new Promise((resolve, reject) => {
+
+        const transaccion = db.transaction("Tareas", "readwrite");
+        const almacen = transaccion.objectStore("Tareas");
+
+        const solicitud = almacen.put(tarea);
+
+        solicitud.onsuccess = () => {
+            resolve(solicitud.result);
+        };
+
+        solicitud.onerror = () => {
+            reject(solicitud.error);
+        };
+    });
 };
 
-const actualizarRegistro = (almacen, registro) => {
-    return ejecutar(almacen, "readwrite", (store) => store.put(registro));
+
+// Eliminar tarea
+const borrarTarea = async (id) => {
+
+    const db = DB || await abrirBD();
+
+    return new Promise((resolve, reject) => {
+
+        const transaccion = db.transaction("Tareas", "readwrite");
+        const almacen = transaccion.objectStore("Tareas");
+
+        const solicitud = almacen.delete(id);
+
+        solicitud.onsuccess = () => {
+            resolve();
+        };
+
+        solicitud.onerror = () => {
+            reject(solicitud.error);
+        };
+    });
 };
 
-const borrarRegistro = (almacen, id) => {
-    return ejecutar(almacen, "readwrite", (store) => store.delete(id));
+
+// Guardar materia
+const guardarMateria = async (materia) => {
+
+    const db = DB || await abrirBD();
+
+    return new Promise((resolve, reject) => {
+
+        const transaccion = db.transaction("Materias", "readwrite");
+        const almacen = transaccion.objectStore("Materias");
+
+        const solicitud = almacen.add(materia);
+
+        solicitud.onsuccess = () => {
+            resolve(solicitud.result);
+        };
+
+        solicitud.onerror = () => {
+            reject(solicitud.error);
+        };
+    });
 };
+
+
+// Obtener todas las materias
+const leerMaterias = async () => {
+
+    const db = DB || await abrirBD();
+
+    return new Promise((resolve, reject) => {
+
+        const transaccion = db.transaction("Materias", "readonly");
+        const almacen = transaccion.objectStore("Materias");
+
+        const solicitud = almacen.getAll();
+
+        solicitud.onsuccess = () => {
+            resolve(solicitud.result);
+        };
+
+        solicitud.onerror = () => {
+            reject(solicitud.error);
+        };
+    });
+};
+
+
+// Obtener una materia por ID
+const obtenerMateria = async (id) => {
+
+    const db = DB || await abrirBD();
+
+    return new Promise((resolve, reject) => {
+
+        const transaccion = db.transaction("Materias", "readonly");
+        const almacen = transaccion.objectStore("Materias");
+
+        const solicitud = almacen.get(id);
+
+        solicitud.onsuccess = () => {
+            resolve(solicitud.result);
+        };
+
+        solicitud.onerror = () => {
+            reject(solicitud.error);
+        };
+    });
+};
+
+
+// Actualizar materia
+const actualizarMateria = async (materia) => {
+
+    const db = DB || await abrirBD();
+
+    return new Promise((resolve, reject) => {
+
+        const transaccion = db.transaction("Materias", "readwrite");
+        const almacen = transaccion.objectStore("Materias");
+
+        const solicitud = almacen.put(materia);
+
+        solicitud.onsuccess = () => {
+            resolve(solicitud.result);
+        };
+
+        solicitud.onerror = () => {
+            reject(solicitud.error);
+        };
+    });
+};
+
+
+// Eliminar materia
+const borrarMateria = async (id) => {
+
+    const db = DB || await abrirBD();
+
+    return new Promise((resolve, reject) => {
+
+        const transaccion = db.transaction("Materias", "readwrite");
+        const almacen = transaccion.objectStore("Materias");
+
+        const solicitud = almacen.delete(id);
+
+        solicitud.onsuccess = () => {
+            resolve();
+        };
+
+        solicitud.onerror = () => {
+            reject(solicitud.error);
+        };
+    });
+};
+
 
 window.BaseDeDatos = Object.freeze({
     abrirBD,
-    guardarUsuario,
-    obtenerUsuario,
-    leerUsuarios,
-    buscarUsuarioPorCorreo,
-    actualizarUsuario,
-    borrarUsuario,
-    guardarTarea,
-    obtenerTarea,
-    leerTareas,
-    actualizarTarea,
-    borrarTarea,
     guardarProducto,
-    obtenerProducto,
     leerProductos,
+    obtenerProducto,
     actualizarProducto,
     borrarProducto,
+    guardarUsuario,
+    leerUsuarios,
+    obtenerUsuario,
+    actualizarUsuario,
+    borrarUsuario,
+    buscarUsuarioPorCorreo,
+    guardarTarea,
+    leerTareas,
+    obtenerTarea,
+    actualizarTarea,
+    borrarTarea,
     guardarMateria,
-    obtenerMateria,
     leerMaterias,
+    obtenerMateria,
     actualizarMateria,
     borrarMateria,
-    guardarRegistro,
-    leerRegistros,
-    actualizarRegistro,
-    borrarRegistro,
 });
-

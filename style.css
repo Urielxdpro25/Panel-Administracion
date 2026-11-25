@@ -10,6 +10,14 @@
   margin: 0;
 }
 
+.body:has(#mySidebar) {
+  padding-left: 235px;
+}
+
+.body:has(#mySidebar.collapsed) {
+  padding-left: 91px;
+}
+
 /* Inicio  Inicio*/
 .h1 {
   color: #190808;
@@ -275,6 +283,11 @@
     padding-bottom: 80px;
   }
 
+  .body:has(#mySidebar),
+  .body:has(#mySidebar.collapsed) {
+    padding-left: 10px;
+  }
+
 
   .popup {
     width: 44px;
@@ -373,6 +386,24 @@
   padding: 12px;
   background-color: #23845c;
   border-radius: 10px;
+}
+
+.stock-pagina {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 0 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.stock-pagina h1,
+.stock-pagina #Materia {
+  box-sizing: border-box;
+  width: min(520px, 100%);
+  margin-inline: auto;
+  text-align: center;
 }
 
 #FormStock fieldset {
