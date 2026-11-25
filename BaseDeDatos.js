@@ -4,7 +4,7 @@ const abrirBD = () => {
 
     return new Promise((resolve, reject) => {
 
-        const solicitud = indexedDB.open("PDA", 2);
+        const solicitud = indexedDB.open("PDA", 3);
 
         solicitud.onupgradeneeded = () => {
 
@@ -35,6 +35,12 @@ const abrirBD = () => {
                 db.createObjectStore("Materias", {
                     keyPath: "id",
                     autoIncrement: true
+                });
+            }
+
+            if (!db.objectStoreNames.contains("Sesion")) {
+                db.createObjectStore("Sesion", {
+                    keyPath: "id"
                 });
             }
         };
@@ -294,6 +300,49 @@ const buscarUsuarioPorCorreo = async (correo) => {
     );
 };
 
+const guardarSesion = async (usuario) => {
+    const db = DB || await abrirBD();
+
+    return new Promise((resolve, reject) => {
+        const transaccion = db.transaction("Sesion", "readwrite");
+        const almacen = transaccion.objectStore("Sesion");
+        const solicitud = almacen.put({
+            id: "actual",
+            usuarioId: usuario.id,
+            nombre: usuario.nombre,
+        });
+
+        solicitud.onsuccess = () => resolve();
+        solicitud.onerror = () => reject(solicitud.error);
+    });
+};
+
+const leerSesion = async () => {
+    const db = DB || await abrirBD();
+
+    return new Promise((resolve, reject) => {
+        const transaccion = db.transaction("Sesion", "readonly");
+        const almacen = transaccion.objectStore("Sesion");
+        const solicitud = almacen.get("actual");
+
+        solicitud.onsuccess = () => resolve(solicitud.result);
+        solicitud.onerror = () => reject(solicitud.error);
+    });
+};
+
+const borrarSesion = async () => {
+    const db = DB || await abrirBD();
+
+    return new Promise((resolve, reject) => {
+        const transaccion = db.transaction("Sesion", "readwrite");
+        const almacen = transaccion.objectStore("Sesion");
+        const solicitud = almacen.delete("actual");
+
+        solicitud.onsuccess = () => resolve();
+        solicitud.onerror = () => reject(solicitud.error);
+    });
+};
+
 
 // Guardar tarea
 const guardarTarea = async (tarea) => {
@@ -538,6 +587,9 @@ window.BaseDeDatos = Object.freeze({
     actualizarUsuario,
     borrarUsuario,
     buscarUsuarioPorCorreo,
+    guardarSesion,
+    leerSesion,
+    borrarSesion,
     guardarTarea,
     leerTareas,
     obtenerTarea,

@@ -17,6 +17,11 @@
         justify-content: space-around;
 
     }
+
+    .grafico-estado {
+        padding: 0 20px;
+        text-align: center;
+    }
 </style>
 
 <body class="body">
@@ -123,6 +128,7 @@
     </nav>
 
 
+    <p id="estado-graficos" class="grafico-estado" role="status" aria-live="polite">Cargando productos...</p>
 
     <div class="dashboard">
 
@@ -152,61 +158,67 @@
 
 
     <script src="./utils/sidebar.js"></script>
+    <script src="./BaseDeDatos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
+        const estadoGraficos = document.getElementById("estado-graficos");
 
-        const productos = [
-            { nombre: "Remera", cantidad: 25 },
-            { nombre: "Pantalón", cantidad: 13 },
-            { nombre: "Zapatillas", cantidad: 29 },
-            { nombre: "Campera", cantidad: 10 },
-            { nombre: "Gorra", cantidad: 20 }
-        ];
+        const cargarGraficos = async () => {
+            try {
+                await window.BaseDeDatos.abrirBD();
+                const productos = await window.BaseDeDatos.leerProductos();
+                const nombres = productos.map((producto) => producto.nombre || "Producto sin nombre");
+                const cantidades = productos.map((producto) => (
+                    Number.isInteger(producto.cantidad) && producto.cantidad >= 0
+                        ? producto.cantidad
+                        : 0
+                ));
 
-        const nombres = productos.map(producto => producto.nombre);
+                new Chart(document.getElementById("graficoBarras"), {
+                    type: "bar",
+                    data: {
+                        labels: nombres,
+                        datasets: [{
+                            label: "Cantidad",
+                            data: cantidades
+                        }]
+                    }
+                });
 
-        const cantidades = productos.map(producto => producto.cantidad);
+                new Chart(document.getElementById("graficoTorta"), {
+                    type: "pie",
+                    data: {
+                        labels: nombres,
+                        datasets: [{
+                            data: cantidades
+                        }]
+                    }
+                });
 
-        new Chart(document.getElementById("graficoBarras"), {
-            type: "bar",
+                new Chart(document.getElementById("graficoPuntos"), {
+                    type: "scatter",
+                    data: {
+                        datasets: [{
+                            label: "Cantidad de productos",
+                            data: cantidades.map((cantidad, indice) => ({
+                                x: indice + 1,
+                                y: cantidad
+                            }))
+                        }]
+                    }
+                });
 
-            data: {
-                labels: nombres,
-
-                datasets: [{
-                    label: "Cantidad",
-                    data: cantidades
-                }]
+                estadoGraficos.textContent = productos.length
+                    ? ""
+                    : "Todavía no hay productos cargados para mostrar.";
+            } catch (error) {
+                console.error("Error al cargar los datos de los gráficos:", error);
+                estadoGraficos.textContent = "No se pudieron cargar los datos de los gráficos.";
             }
-        });
+        };
 
-        new Chart(document.getElementById("graficoTorta"), {
-            type: "pie",
-
-            data: {
-                labels: nombres,
-
-                datasets: [{
-                    data: cantidades
-                }]
-            }
-        });
-
-        new Chart(document.getElementById("graficoPuntos"), {
-            type: "scatter",
-
-            data: {
-                datasets: [{
-                    label: "Cantidad de productos",
-
-                    data: productos.map((producto, indice) => ({
-                        x: indice + 1,
-                        y: producto.cantidad
-                    }))
-                }]
-            }
-        });
+        cargarGraficos();
 
     </script>
 

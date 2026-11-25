@@ -520,6 +520,31 @@
   color: #0f5739;
 }
 
+.btn-restar-materia {
+  margin-right: 8px;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 6px;
+  background-color: #0f5739;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+  transition: background-color .2s ease, transform .2s ease;
+}
+
+.btn-restar-materia:hover {
+  background-color: #176b49;
+}
+
+.btn-restar-materia:active {
+  transform: translateY(1px);
+}
+
+.btn-restar-materia:focus-visible {
+  outline: 3px solid #45c9a4;
+  outline-offset: 3px;
+}
+
 .btn-borrar-materia {
   padding: 8px 12px;
   border: 0;

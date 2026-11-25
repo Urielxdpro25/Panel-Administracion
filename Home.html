@@ -147,31 +147,15 @@
 
     <script src="./BaseDeDatos.js"></script>
     <script src="./utils/sidebar.js"></script>
+    <script src="./utils/mostrarNombre.js"></script>
     <script>
-        let valorRecuperado = localStorage.getItem("nombreUsuario");
-        document.getElementById("nombre").textContent = valorRecuperado;
-
         const listaTareasAlta = document.getElementById("lista-tareas-alta");
 
         const mostrarTareasAlta = async () => {
             listaTareasAlta.replaceChildren();
 
             try {
-                await window.BaseDeDatos.abrirBD();
-                let tareas = await window.BaseDeDatos.leerTareas();
-
-                if (tareas.length === 0) {
-                    const tareasAntiguas = JSON.parse(
-                        localStorage.getItem("tareasPrioridadAlta") || "[]"
-                    );
-                    tareas = Array.isArray(tareasAntiguas)
-                        ? tareasAntiguas.map((texto) => ({
-                            texto,
-                            prioridad: "alta",
-                            completada: false,
-                        }))
-                        : [];
-                }
+                const tareas = await window.BaseDeDatos.leerTareas();
 
                 tareas
                     .filter((tarea) =>
@@ -191,26 +175,22 @@
 
         mostrarTareasAlta();
         const listaMaterias = document.getElementById("lista-materias");
-        const mostrarNombresMaterias = () => {
-            const materias = JSON.parse(localStorage.getItem("materiasStock") || "[]");
+        const mostrarNombresMaterias = async () => {
             listaMaterias.replaceChildren();
 
-            materias.forEach((materia) => {
-                const elemento = document.createElement("li");
-                elemento.textContent = materia.nombre;
-                listaMaterias.appendChild(elemento);
-            });
+            try {
+                const materias = await window.BaseDeDatos.leerMaterias();
+                materias.forEach((materia) => {
+                    const elemento = document.createElement("li");
+                    elemento.textContent = materia.nombre;
+                    listaMaterias.appendChild(elemento);
+                });
+            } catch (error) {
+                console.error("Error al cargar las materias:", error);
+            }
         };
 
         mostrarNombresMaterias();
-        window.addEventListener("storage", (event) => {
-            if (event.key === "materiasStock") {
-                mostrarNombresMaterias();
-            }
-            if (event.key === "tareasPrioridadAlta") {
-                mostrarTareasAlta();
-            }
-        });
 
     </script>
 

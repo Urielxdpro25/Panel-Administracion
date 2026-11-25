@@ -41,7 +41,7 @@ form.addEventListener("submit", async (event) => {
     try {
         const usuario = await window.BaseDeDatos.buscarUsuarioPorCorreo(nameMail);
         if (usuario && usuario.password === passUsuario) {
-            localStorage.setItem("nombreUsuario", usuario.nombre);
+            await window.BaseDeDatos.guardarSesion(usuario);
             window.location.href = "Home.html";
             return;
         }
