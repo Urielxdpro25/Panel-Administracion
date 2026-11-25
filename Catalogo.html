@@ -113,6 +113,27 @@
         font-weight: 800;
     }
 
+    .productoCard-cantidad-label {
+        color: #153b29;
+        font-weight: 600;
+    }
+
+    .productoCard-cantidad {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #b8c9bd;
+        border-radius: 8px;
+        font: inherit;
+    }
+
+    .productoCard-estado {
+        min-height: 1.25em;
+        margin: 0;
+        color: #0f5739;
+        font-size: 0.9rem;
+    }
+
     .catalogo-vacio {
         grid-column: 1 / -1;
         padding: 48px 20px;
@@ -316,7 +337,72 @@
                 ? new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS" }).format(valor)
                 : `$${producto.precio || "0"}`;
 
-            cuerpo.append(nombre, descripcion, precio);
+            const cantidad = document.createElement("input");
+            cantidad.className = "productoCard-cantidad";
+            cantidad.type = "number";
+            cantidad.min = "0";
+            cantidad.step = "1";
+            cantidad.required = true;
+            cantidad.value = String(
+                Number.isInteger(producto.cantidad) && producto.cantidad >= 0
+                    ? producto.cantidad
+                    : 0
+            );
+            cantidad.id = `cantidad-producto-${producto.id}`;
+
+            const etiquetaCantidad = document.createElement("label");
+            etiquetaCantidad.className = "productoCard-cantidad-label";
+            etiquetaCantidad.htmlFor = cantidad.id;
+            etiquetaCantidad.textContent = "Cantidad para los gráficos";
+
+            const botonGuardarCantidad = document.createElement("button");
+            botonGuardarCantidad.className = "btn-success";
+            botonGuardarCantidad.type = "button";
+            botonGuardarCantidad.textContent = "Guardar cantidad";
+
+            const estadoCantidad = document.createElement("p");
+            estadoCantidad.className = "productoCard-estado";
+            estadoCantidad.setAttribute("role", "status");
+            estadoCantidad.setAttribute("aria-live", "polite");
+
+            cantidad.addEventListener("input", () => {
+                cantidad.setCustomValidity("");
+            });
+
+            botonGuardarCantidad.addEventListener("click", async () => {
+                const nuevaCantidad = cantidad.valueAsNumber;
+                if (!Number.isInteger(nuevaCantidad) || nuevaCantidad < 0) {
+                    cantidad.setCustomValidity("Ingresá una cantidad entera igual o mayor a cero.");
+                    cantidad.reportValidity();
+                    return;
+                }
+
+                botonGuardarCantidad.disabled = true;
+                estadoCantidad.textContent = "Guardando...";
+                try {
+                    await window.BaseDeDatos.actualizarProducto({
+                        ...producto,
+                        cantidad: nuevaCantidad
+                    });
+                    producto.cantidad = nuevaCantidad;
+                    estadoCantidad.textContent = "Cantidad guardada para los gráficos.";
+                } catch (error) {
+                    console.error("Error al guardar la cantidad del producto:", error);
+                    estadoCantidad.textContent = "No se pudo guardar la cantidad.";
+                } finally {
+                    botonGuardarCantidad.disabled = false;
+                }
+            });
+
+            cuerpo.append(
+                nombre,
+                descripcion,
+                precio,
+                etiquetaCantidad,
+                cantidad,
+                botonGuardarCantidad,
+                estadoCantidad
+            );
             card.appendChild(cuerpo);
             return card;
         };

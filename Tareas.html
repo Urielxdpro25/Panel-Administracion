@@ -231,41 +231,8 @@
 
         async function iniciarTareas() {
             try {
-                let tareas = await window.BaseDeDatos.leerTareas();
-
-                if (tareas.length === 0) {
-                    const tareasAntiguas = JSON.parse(
-                        localStorage.getItem("tareasPrioridadAlta") || "[]"
-                    );
-                    if (Array.isArray(tareasAntiguas)) {
-                        const tareasMigradas = [];
-
-                        for (const texto of tareasAntiguas) {
-                            if (typeof texto !== "string" || !texto.trim()) {
-                                continue;
-                            }
-
-                            const id = await window.BaseDeDatos.guardarTarea({
-                                texto,
-                                prioridad: "alta",
-                                completada: false,
-                            });
-
-                            tareasMigradas.push({
-                                id,
-                                texto,
-                                prioridad: "alta",
-                                completada: false,
-                            });
-                        }
-
-                        tareas = tareasMigradas;
-                        localStorage.removeItem("tareasPrioridadAlta");
-                    }
-                }
-
+                const tareas = await window.BaseDeDatos.leerTareas();
                 tareas.forEach((tarea) => añadirTarea(tarea));
-                guardarTareasAlta();
             } catch (error) {
                 console.error("Error al cargar las tareas:", error);
                 alert("No se pudieron cargar las tareas guardadas.");
@@ -293,7 +260,6 @@
             check.checked = tarea.completada === true;
             check.addEventListener("change", async () => {
                 (check.checked ? terminadas : lista).appendChild(card);
-                guardarTareasAlta();
 
                 if (card.dataset.taskId) {
                     await guardarTareaDeTarjeta(card);
@@ -316,8 +282,6 @@
 
             selection.append(option1, option2, option3);
             selection.value = tarea.prioridad || "alta";
-            input.addEventListener("input", guardarTareasAlta);
-            selection.addEventListener("change", guardarTareasAlta);
 
             card.classList.add("card");
             if (tarea.id !== undefined) {
@@ -371,7 +335,6 @@
                 }
 
                 botonGuardar.textContent = "Guardado";
-                guardarTareasAlta();
             } catch (error) {
                 console.error("Error al guardar la tarea:", error);
                 alert("No se pudo guardar la tarea.");
@@ -381,19 +344,6 @@
                     ? "Guardar cambios"
                     : "Cargar Tarea";
             }
-        }
-
-        function guardarTareasAlta() {
-            const tareasAlta = Array.from(contenedor.querySelectorAll(".card"))
-                .map((card) => ({
-                    texto: card.querySelector(".input").value.trim(),
-                    prioridad: card.querySelector(".selection").value,
-                    check: card.querySelector('input[type="checkbox"]').checked
-                }))
-                .filter((tarea) => tarea.texto && tarea.prioridad === "alta" && !tarea.check)
-                .map((tarea) => tarea.texto);
-
-            localStorage.setItem("tareasPrioridadAlta", JSON.stringify(tareasAlta));
         }
 
         async function manejarBorradoDeTarea(event) {
@@ -406,7 +356,6 @@
                         await window.BaseDeDatos.borrarTarea(Number(id));
                     }
                     card.remove();
-                    guardarTareasAlta();
                 } catch (error) {
                     console.error("Error al borrar la tarea:", error);
                     alert("No se pudo borrar la tarea.");

@@ -151,20 +151,13 @@
         <img src="LogoPDA.jpeg" class="img">
     </footer>
 
-    <script type="module" src="./utils/mostrarNombre.js"></script>
-    <script type="module" src="./utils/localStorage.js"></script>
     <script src="./utils/sidebar.js"></script>
     <script src="./BaseDeDatos.js"></script>
 
     <script>
         const formularioStock = document.getElementById("FormStock");
         const listaMateria = document.getElementById("cardM");
-        const claveMaterias = "materiasStock";
         let materias = [];
-
-        function guardarMaterias() {
-            localStorage.setItem(claveMaterias, JSON.stringify(materias));
-        }
 
         function mostrarMaterias() {
             listaMateria.replaceChildren();
@@ -183,6 +176,42 @@
                 const textoFecha = document.createElement("p");
                 textoFecha.textContent = `Fecha de ingreso: ${new Date(`${materia.fecha}T00:00:00`).toLocaleDateString("es-AR")}`;
 
+                const campoDescuento = document.createElement("div");
+                campoDescuento.classList.add("stock-campo");
+
+                const inputDescuento = document.createElement("input");
+                inputDescuento.type = "number";
+                inputDescuento.min = "0";
+                inputDescuento.step = "any";
+                inputDescuento.placeholder = "Cantidad a restar";
+                inputDescuento.setAttribute("aria-label", `Cantidad a restar de ${materia.nombre}`);
+                campoDescuento.appendChild(inputDescuento);
+
+                const botonRestar = document.createElement("button");
+                botonRestar.type = "button";
+                botonRestar.classList.add("btn-restar-materia");
+                botonRestar.textContent = "Restar materia";
+                botonRestar.addEventListener("click", async () => {
+                    const cantidadARestar = Number(inputDescuento.value);
+                    const cantidadActual = Number(materia.cantidad);
+
+                    if (!Number.isFinite(cantidadARestar) || cantidadARestar <= 0 ||
+                        !Number.isFinite(cantidadActual) || cantidadARestar > cantidadActual) {
+                        alert("Ingresa una cantidad válida que no supere el stock disponible.");
+                        return;
+                    }
+
+                    try {
+                        const materiaActualizada = { ...materia, cantidad: cantidadActual - cantidadARestar };
+                        await window.BaseDeDatos.actualizarMateria(materiaActualizada);
+                        materias = materias.map((elemento) => elemento.id === materia.id ? materiaActualizada : elemento);
+                        mostrarMaterias();
+                    } catch (error) {
+                        console.error("Error al restar materia:", error);
+                        alert("No se pudo restar la materia.");
+                    }
+                });
+
                 const botonBorrar = document.createElement("button");
                 botonBorrar.type = "button";
                 botonBorrar.classList.add("btn-borrar-materia");
@@ -192,7 +221,6 @@
                     try {
                         await window.BaseDeDatos.borrarMateria(materia.id);
                         materias = materias.filter((elemento) => elemento.id !== materia.id);
-                        guardarMaterias();
                         mostrarMaterias();
                     } catch (error) {
                         console.error("Error al borrar la materia:", error);
@@ -200,7 +228,7 @@
                     }
                 });
 
-                tarjeta.append(titulo, textoCantidad, textoFecha, botonBorrar);
+                tarjeta.append(titulo, textoCantidad, textoFecha, campoDescuento, botonRestar, botonBorrar);
                 listaMateria.appendChild(tarjeta);
             });
         }
@@ -208,22 +236,6 @@
         async function cargarMaterias() {
             try {
                 materias = await window.BaseDeDatos.leerMaterias();
-
-                if (materias.length === 0) {
-                    const materiasAntiguas = JSON.parse(localStorage.getItem(claveMaterias) || "[]");
-                    if (Array.isArray(materiasAntiguas)) {
-                        for (const materia of materiasAntiguas) {
-                            const id = await window.BaseDeDatos.guardarMateria({
-                                nombre: materia.nombre,
-                                cantidad: materia.cantidad,
-                                fecha: materia.fecha,
-                            });
-                            materias.push({ ...materia, id });
-                        }
-                    }
-                }
-
-                guardarMaterias();
                 mostrarMaterias();
             } catch (error) {
                 console.error("Error al cargar las materias:", error);
@@ -254,7 +266,6 @@
             try {
                 const id = await window.BaseDeDatos.guardarMateria(materia);
                 materias.push({ ...materia, id });
-                guardarMaterias();
                 mostrarMaterias();
                 formularioStock.reset();
             } catch (error) {
