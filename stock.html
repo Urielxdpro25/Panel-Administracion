@@ -187,6 +187,45 @@
                 inputDescuento.setAttribute("aria-label", `Cantidad a restar de ${materia.nombre}`);
                 campoDescuento.appendChild(inputDescuento);
 
+                const campoAgregar = document.createElement("div");
+                campoAgregar.classList.add("stock-campo");
+
+                const inputAgregar = document.createElement("input");
+                inputAgregar.type = "number";
+                inputAgregar.min = "0";
+                inputAgregar.step = "any";
+                inputAgregar.placeholder = "Cantidad a añadir";
+                inputAgregar.setAttribute("aria-label", `Cantidad a añadir de ${materia.nombre}`);
+                campoAgregar.appendChild(inputAgregar);
+
+                const botonAgregar = document.createElement("button");
+                botonAgregar.type = "button";
+                botonAgregar.classList.add("btn-agregar-materia");
+                botonAgregar.textContent = "Añadir materia";
+                botonAgregar.addEventListener("click", async () => {
+                    const cantidadAAgregar = Number(inputAgregar.value);
+                    const cantidadActual = Number(materia.cantidad);
+
+                    if (!Number.isFinite(cantidadAAgregar) || cantidadAAgregar <= 0 ||
+                        !Number.isFinite(cantidadActual)) {
+                        alert("Ingresa una cantidad válida mayor que cero.");
+                        return;
+                    }
+
+                    try {
+                        const materiaActualizada = {
+                            ...materia,
+                            cantidad: cantidadActual + cantidadAAgregar
+                        };
+                        await window.BaseDeDatos.actualizarMateria(materiaActualizada);
+                        materias = materias.map((elemento) => elemento.id === materia.id ? materiaActualizada : elemento);
+                        mostrarMaterias();
+                    } catch (error) {
+                        console.error("Error al añadir materia:", error);
+                        alert("No se pudo añadir la materia.");
+                    }
+                });
+
                 const botonRestar = document.createElement("button");
                 botonRestar.type = "button";
                 botonRestar.classList.add("btn-restar-materia");
@@ -228,7 +267,16 @@
                     }
                 });
 
-                tarjeta.append(titulo, textoCantidad, textoFecha, campoDescuento, botonRestar, botonBorrar);
+                tarjeta.append(
+                    titulo,
+                    textoCantidad,
+                    textoFecha,
+                    campoAgregar,
+                    botonAgregar,
+                    campoDescuento,
+                    botonRestar,
+                    botonBorrar
+                );
                 listaMateria.appendChild(tarjeta);
             });
         }
