@@ -520,6 +520,7 @@
   color: #0f5739;
 }
 
+.btn-agregar-materia,
 .btn-restar-materia {
   margin-right: 8px;
   padding: 8px 12px;
@@ -532,14 +533,17 @@
   transition: background-color .2s ease, transform .2s ease;
 }
 
+.btn-agregar-materia:hover,
 .btn-restar-materia:hover {
   background-color: #176b49;
 }
 
+.btn-agregar-materia:active,
 .btn-restar-materia:active {
   transform: translateY(1px);
 }
 
+.btn-agregar-materia:focus-visible,
 .btn-restar-materia:focus-visible {
   outline: 3px solid #45c9a4;
   outline-offset: 3px;
